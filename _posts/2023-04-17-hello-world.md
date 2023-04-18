@@ -12,4 +12,13 @@ Hello and welcome to my homelab docs site!
 ## TEST
 asfafkgodkfnlapokfdmvapodkfnppbajidfknba aksdmaklfdmbaidnfbakd
 
+```javascript
+console.log("Hello World")
+```
+
+```bash
+sudo apt update && sudo apt upgrade -y
+
+```
+
 
