@@ -1,3 +1,11 @@
+---
+layout: post
+title: "Meet Jekyll - The Static Site Generator"
+date: 2022-04-18 10:00:00 -0500
+categories: self-hosted
+tags: jekyll websit
+
+---
 
 Jekyll is a static site generator. It takes text written in your favorite markup language and uses layouts to create a static website. You can tweak the site’s look and feel, URLs, the data displayed on the page, and more.
 
