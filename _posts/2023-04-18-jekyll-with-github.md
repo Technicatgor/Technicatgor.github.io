@@ -70,7 +70,7 @@ This will output the production site to `_site`
 
 This site already works with GitHub actions, just push it up and check the actions Tab.,
 
-For GitLab you can see the pipeline I built for my own docs site here
+For GitLab you can see the pipeline I built for [my own docs site here](https://github.com/Technicatgor/Technicatgor.github.io/blob/master/.gitlab.yml)
 
 ### Building with Docker
 
