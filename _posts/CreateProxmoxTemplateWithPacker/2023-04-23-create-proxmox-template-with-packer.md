@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Create Proxmox Template With Packer
-date: 2023-04-24 00:00 -500
-categories: [homelab,proxmox,packer]
+date: 2023-04-24 10:00 +800
+categories: [Homelab,Proxmox]
 tags: [proxmox,packer]
 ---
 ## Installing Packer
