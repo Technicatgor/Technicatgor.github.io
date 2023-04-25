@@ -35,7 +35,7 @@ I write a playbook for install nodejs from binaries on my k3s-cluster
 
 ## Files
 ansible.cfg
-```cfg
+```
 [defaults]
 inventory = ./inventory/my-cluster/hosts.ini # setup your remote hosts information
 ```
