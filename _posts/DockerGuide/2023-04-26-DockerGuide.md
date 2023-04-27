@@ -98,7 +98,7 @@ docker volume create --driver local \
 ```
 
 we can inspect the volume info
-```
+```sh 
 docker inspect volume uptime-kuma
 [
     {
@@ -120,7 +120,7 @@ docker inspect volume uptime-kuma
 run uptime-kuma and bind volume we created before
 ```
 docker run -d --restart=always -p 3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
-``
+```
 
 ## Docker-compose
 we can also use docker-compose.yml to deploy 
