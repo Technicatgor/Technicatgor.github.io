@@ -60,7 +60,8 @@ sleep 2
 sudo chmod +x /usr/local/bin/docker-compose
 echo $(docker-compose -v)
 
-sleep 3s```
+sleep 3s
+```
 
 ## Create docker and add user to docker group
 ```sh
