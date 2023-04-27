@@ -108,7 +108,7 @@ docker inspect volume uptime-kuma
         "Name": "uptime-kuma",
         "Options": {
             "device": ":volume1/docker_data/uptime-kuma",
-            "o": "addr=192.168.100.250,rw",
+            "o": "addr=192.168.100.250,rw,nfsvers=4",
             "type": "nfs"
         },
         "Scope": "local"
@@ -120,6 +120,29 @@ run uptime-kuma and bind volume we created before
 ```
 docker run -d --restart=always -p 3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
 ``
+
+## Docker-compose
+we can also use docker-compose.yml to deploy 
+```
+version: '3.3'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    volumes:
+      - uptime-kuma:/app/data
+    ports:
+      - 3001:3001
+    restart: always
+
+volumes:
+  uptime-kuma:
+    driver_opts:
+      type: nfs
+      o: addr=192.168.100.250,nfsvers=4
+      device: :/volume1/docker_data/uptime-kuma
+```
 
 ## Backup Image
 ls the images 
