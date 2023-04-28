@@ -60,7 +60,7 @@ inventory/my-cluster/group_vars/all.yml
 ---
 ansible_user: heston
 ansible_private_key_file: /root/.ssh/id_rsa # ssh key have been setup packer/terraform before
-NODE_VERSION: "v20.0.0"
+NODEJS_VERSION: "20"
 ```
 {: file="inventory/my-cluster/group_vars/all.yml" }
 
@@ -80,38 +80,21 @@ roles/download/tasks/main.yml
 ```
 {% raw %}
 ---
-- name: Download NodeJS
-  ansible.builtin.get_url:
-    url: "https://nodejs.org/dist/{{ NODE_VERSION }}/node-{{ NODE_VERSION }}-linux-x64.tar.xz"
-    dest: /tmp
-    
-- name: Unarchive
-  ansible.builtin.unarchive:
-    src: /tmp/node-{{ NODE_VERSION }}-linux-x64.tar.xz
-    dest: /tmp
-    remote_src: true
-      
-- name: Copy to bin
-  become: true
-  ansible.builtin.copy:
-    src: /tmp/node-{{ NODE_VERSION }}-linux-x64/{{ item }}
-    dest: /usr
-    remote_src: true
-  with_items:
-    - bin
-    - include
-    - share
-    
-- name: Check node version
-  command: node -v
+- name: Install the gpg key for nodejs LTS
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    state: present
 
-- name: Delete tmp file after installation
-  ansible.builtin.file:
-    state: absent
-    path: "{{ item }}"
-  with_items:
-    - /tmp/node-{{ NODE_VERSION }}-linux-x64
-    - /tmp/node-{{ NODE_VERSION }}-linux-x64.tar.xz
+- name: Install the nodejs LTS repos
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+    state: present
+    update_cache: yes
+
+- name: Install the nodejs
+  apt:
+    name: nodejs
+    state: present
 {% endraw %}
 ```
 {: file="roles/download/tasks/main.yml" }
