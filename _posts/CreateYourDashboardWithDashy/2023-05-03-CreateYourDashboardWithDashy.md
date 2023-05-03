@@ -42,7 +42,7 @@ services:
 ```
 ## Icons
 [referrence](https://dashy.to/docs/icons#home-lab-icons)
-[https://github.com/WalkxCode/dashboard-icons/tree/main/png](icons list)
+[icons list](https://github.com/WalkxCode/dashboard-icons/tree/main/png)
 
 eg:
 ```
