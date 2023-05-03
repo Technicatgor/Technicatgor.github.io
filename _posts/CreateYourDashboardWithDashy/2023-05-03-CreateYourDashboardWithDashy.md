@@ -171,4 +171,4 @@ sections:
           hostname: http://192.168.1.2:61208
         id: 0_1061_glsystemload
 ```
-{! file=conf.yml}
+{: file="conf.yml"}
