@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Create Your Dashboard with Dashy
-date: 2023-05-02 17:00:00 +800
+date: 2023-05-03 19:00:00 +800
 categories: [Monitoring,Self-hosting]
 tags: [docker,dashy]
 ---
