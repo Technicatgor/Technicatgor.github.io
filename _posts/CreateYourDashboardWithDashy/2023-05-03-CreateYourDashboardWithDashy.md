@@ -1,44 +1,64 @@
 ---
 layout: post
-title: Glances - An Eye on your system
+title: Create Your Dashboard with Dashy
 date: 2023-05-02 17:00:00 +800
-categories: [Monitoring,Proxmox]
-tags: [glances,dashy]
+categories: [Monitoring,Self-hosting]
+tags: [docker,dashy]
 ---
 
-Glances is an open-source system cross-platform monitoring tool
+## Prerequisites
 
-## Installation
+- Docker-CE
+- Docker-Compose
+
+create a folder called docker and sub-folder called dashy
+
+`mkdir -p docker/dashy && cd docker/dashy`
+
+`vim docker-compose.yml`
 ```
-apt install python3 python3-pip -y
-pip3 install bottle
-pip3 install glances
-```
-## Create a service
-`vim /etc/systemd/system/glances.service`
+version: "3.4"
+services:
+  dashy:
+    image: lissy93/dashy:latest
+    container_name: Dashy
+    # Pass in your config file below, by specifying the path on your host machine  
+    volumes:
+      - ./conf.yml:/app/public/conf.yml
+    ports:
+      - 4000:80
+    # Set any environmental variables
+    environment:
+      - NODE_ENV=production
+    restart: always
+    # Configure healthchecks
+    healthcheck:
+      test: ['CMD', 'node', '/app/services/healthcheck']
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 ```
-[Unit]
-Description = Glances in Web Server Mode
-After = network.target
+## Icons
+[referrence](https://dashy.to/docs/icons#home-lab-icons)
+[https://github.com/WalkxCode/dashboard-icons/tree/main/png](icons list)
 
-[Service]
-ExecStart = /usr/local/bin/glances  -w  -t  5
-
-[Install]
-WantedBy = multi-user.target
+eg:
 ```
-{! file=/etc/systemd/system/glances.service}
-```
-systemctl enable glances.service  # startup on boot
-systemctl start glances.service  # start glances
-systemctl status glances.service  # check glances status
-systemctl restart glances.service  # restart glances
+sections:
+- name: Home Lab Icons Example
+  items:
+  - title: AdGuard Home
+    icon: hl-adguardhome
+  - title: Long Horn
+    icon: hl-longhorn
+  - title: Nagios
+    icon: hl-nagios
+  - title: Whoogle Search
+    icon: hl-whooglesearch
 ```
 
-
-## Addition
-Glances with Dashy
 ```yml
 pageInfo:
   title: My Dashboard
