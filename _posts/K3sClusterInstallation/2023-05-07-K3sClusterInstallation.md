@@ -42,6 +42,7 @@ node
 
 inventory/my-cluster/group_vars/all.yml
 ```yml
+{%raw%}
 ---
 k3s_version: v1.25.9+k3s1
 # this is the user that has ssh access to these machines
@@ -93,7 +94,6 @@ metal_lb_type: "native"
 # metallb mode layer2 or bgp
 metal_lb_mode: "layer2"
 
-
 # image tag for metal lb
 metal_lb_frr_tag_version: "v7.5.1"
 metal_lb_speaker_tag_version: "v0.13.9"
@@ -102,7 +102,7 @@ metal_lb_controller_tag_version: "v0.13.9"
 # metallb ip range for load balancer
 metal_lb_ip_range: "10.0.50.90-10.0.50.99"
 proxmox_lxc_configure: false
-
+{%endraw%}
 ```
 {: file="inventory/my-cluster/group_vars/all.yml"}
 
@@ -164,7 +164,9 @@ EOF
 ```
 get token
 ```sh
+{%raw%}
 kubectl get --namespace default secret kubeapps-operator-token -o go-template='{{.data.token | base64decode}}'
+{%endraw%}
 ```
 
 `kubectl get svc -n kubeapps`
