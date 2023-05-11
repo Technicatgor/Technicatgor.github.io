@@ -2,8 +2,8 @@
 layout: post
 title: Kubernetes IDE - OpenLens
 date: 2023-05-08 19:00:00 +800
-categories: [Software,OpenSource]
-tags: [kubernetes]
+categories: [Kubernetes]
+tags: [kubernetes,software]
 ---
   
 ## Openlens

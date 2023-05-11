@@ -2,8 +2,8 @@
 layout: post
 title: Deploying VMs With Terraform In Proxmox
 date: 2023-04-24 15:00:00 +800
-categories: [Homelab,Proxmox]
-tags: [terraform,proxmox]
+categories: [DevOps,Terraform]
+tags: [terraform,proxmox.homelab]
 ---
 
 ## Install Terraform

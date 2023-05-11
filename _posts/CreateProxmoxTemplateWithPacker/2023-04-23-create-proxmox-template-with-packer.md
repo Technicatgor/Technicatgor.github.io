@@ -2,8 +2,8 @@
 layout: post
 title: Create Proxmox Template With Packer
 date: 2023-04-24 10:00 +800
-categories: [Homelab,Proxmox]
-tags: [proxmox,packer]
+categories: [Hypervisors,Proxmox]
+tags: [proxmox,packer,homelab]
 ---
 ## Installing Packer
 Add the HashiCorp GPG key.
@@ -35,6 +35,7 @@ check packer is installed `packer --version`
 ## Files
 ubuntu-2204/ubuntu-2204-server.pkr.hcl
 ```hcl
+{% raw %}
 # Ubuntu Server 2204
 # ---
 # Packer Template to create an Ubuntu Server on Proxmox
@@ -178,6 +179,7 @@ build {
     }
 }
 
+{% endraw %}
 ```
 {: file='ubuntu-2204/ubuntu-2204-server.pkr.hcl'}
 

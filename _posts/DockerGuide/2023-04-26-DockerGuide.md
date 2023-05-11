@@ -2,7 +2,7 @@
 layout: post
 title: "Docker Guide"
 date: 2023-04-26 10:00:00 +800
-categories: [docker]
+categories: [Docker,Guide]
 tags: [docker]
 ---
 

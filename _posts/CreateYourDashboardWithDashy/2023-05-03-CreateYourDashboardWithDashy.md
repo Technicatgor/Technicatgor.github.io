@@ -2,8 +2,8 @@
 layout: post
 title: Create Your Dashboard with Dashy
 date: 2023-05-03 19:00:00 +800
-categories: [Monitoring,Self-hosting]
-tags: [docker,dashy]
+categories: [Docker,Dashy]
+tags: [monitor,dashy,homelab]
 ---
 
 ## Prerequisites

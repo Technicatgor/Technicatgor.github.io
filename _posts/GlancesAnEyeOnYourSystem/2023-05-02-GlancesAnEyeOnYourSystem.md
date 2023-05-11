@@ -2,7 +2,7 @@
 layout: post
 title: Glances - An Eye on your system
 date: 2023-05-02 17:00:00 +800
-categories: [Monitoring,Proxmox]
+categories: [Monitoring,Glances]
 tags: [glances,dashy]
 ---
 

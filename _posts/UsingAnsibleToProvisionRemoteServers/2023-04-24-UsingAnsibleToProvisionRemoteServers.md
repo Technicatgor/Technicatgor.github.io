@@ -2,8 +2,8 @@
 layout: post
 title: Using Ansible to provision remote servers
 date: 2023-04-24 17:00:00 +800
-categories: [Homelab,Proxmox]
-tags: [proxmox,ansible]
+categories: [DevOps,Ansible]
+tags: [proxmox,ansible,kubernetes]
 ---
 
 ## Install Ansible

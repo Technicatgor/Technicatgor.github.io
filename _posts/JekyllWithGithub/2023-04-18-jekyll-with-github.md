@@ -2,8 +2,8 @@
 layout: post
 title: "Meet Jekyll - The Static Site Generator"
 date: 2023-04-18 10:00:00 -0500
-categories: self-hosted
-tags: jekyll
+categories: [Self-Hosted,Jekyll]
+tags: [web,jekyll]
 
 ---
 

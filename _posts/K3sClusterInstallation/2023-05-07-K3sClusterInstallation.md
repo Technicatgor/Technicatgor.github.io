@@ -2,8 +2,8 @@
 layout: post
 title: K3s Cluster Installation 
 date: 2023-05-07 19:00:00 +800
-categories: [Homelab, Automation]
-tags: [kubernetes,ansible,helm,kubeapps]
+categories: [Kubernetes]
+tags: [kubernetes,ansible,helm,kubeapps,homelab,cloud]
 ---
 
 
