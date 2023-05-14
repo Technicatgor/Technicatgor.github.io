@@ -6,6 +6,10 @@ categories: [Docker,Guide]
 tags: [docker]
 ---
 
+![docker-banner](/assets/img/docker-banner.png)
+
+Docker 是一種軟體平台，可讓您快速地建立、測試和部署應用程式。Docker 將軟體封裝到名為容器的標準化單位，其中包含程式庫、系統工具、程式碼和執行時間等執行軟體所需的所有項目。使用 Docker，您可以將應用程式快速地部署到各種環境並加以擴展，而且知道程式碼可以執行。
+
 ## Installation
 
 ### Ubuntu and Debian 
