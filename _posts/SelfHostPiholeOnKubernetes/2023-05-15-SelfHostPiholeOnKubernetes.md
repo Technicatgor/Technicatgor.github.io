@@ -8,7 +8,7 @@ tags: [kubernetes,dns,pihole]
 
 ![pihole](https://community-assets.home-assistant.io/original/3X/e/8/e89b980ceaf3a94eeae7527ae9b64b6d9f478723.jpg)
 
-The [Pi-hole®](pi-hole.net) is a DNS sinkhole that protects your devices from unwanted content without installing any client-side software.
+The [Pi-hole®](https://pi-hole.net) is a DNS sinkhole that protects your devices from unwanted content without installing any client-side software.
 
 ## Preqre
 - Helm 
