@@ -10,6 +10,19 @@ tags: [docker]
 
 Docker 是一種軟體平台，可讓您快速地建立、測試和部署應用程式。Docker 將軟體封裝到名為容器的標準化單位，其中包含程式庫、系統工具、程式碼和執行時間等執行軟體所需的所有項目。使用 Docker，您可以將應用程式快速地部署到各種環境並加以擴展，而且知道程式碼可以執行。
 
+Containers and VMs comparison
+![container](/assets/img/container.jpg)
+
+## Concept
+- 映像檔（Image）
+Docker 映像檔就是一個唯讀的模板。
+例如：一個映像檔可以包含一個完整的 Linux 作業系統環境，裡面僅安裝了 SSH 或使用者需要的其它應用程式。映像檔可以用來建立 Docker 容器。
+- 容器（Container）
+Docker 利用容器來執行應用。
+容器是從映像檔建立的執行程序。它可以被啟動、開始、停止、刪除。每個容器都是相互隔離的、保證安全的平台。
+- 倉庫（Repository）
+倉庫是集中存放映像檔檔案的場所。有時候會把倉庫和倉庫註冊伺服器（Registry）混為一談，並不嚴格區分。實際上，倉庫註冊伺服器上往往存放著多個倉庫，每個倉庫中又包含了多個映像檔，每個映像檔有不同的標籤（tag）。
+
 ## Installation
 
 ### Ubuntu and Debian 
@@ -148,6 +161,7 @@ volumes:
       o: addr=192.168.100.250,nfsvers=4
       device: :/volume1/docker_data/uptime-kuma
 ```
+
 
 ## Backup Image
 ls the images 
