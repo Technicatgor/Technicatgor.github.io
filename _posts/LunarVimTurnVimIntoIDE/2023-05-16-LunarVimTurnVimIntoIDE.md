@@ -77,7 +77,7 @@ EOF
 
 Download my lunarvim config file
 ```sh
-wget https://github.com/Technicatgor/launcher/blob/main/lunarvim/config.lua -O ~/.config/lvim/config.lua
+wget https://raw.githubusercontent.com/Technicatgor/launcher/main/lunarvim/config.lua -O ~/.config/lvim/config.lua
 ```
 
 ### Update
