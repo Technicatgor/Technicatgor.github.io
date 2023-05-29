@@ -15,16 +15,29 @@ tags: [neovim,lunarvim,lazygit,linux]
 
 ## Neovim v0.9
 Adding this [PPA](https://launchpad.net/~neovim-ppa/+archive/ubuntu/stable) to your system
+### Ubuntu
 ```sh
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt update
 sudo apt install neovim -y
+```
+### Debian
+```
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O nvim
+chmod +x nvim && mv nvim /usr/bin/
+mkdir -p ~/.config/nvim
 ```
 
 check your neovim version
 ```sh
 nvim --version
 Neovim v0.9.0+.
+```
+> remeber export your PATH env `export PATH="/usr/bin:$PATH"`
+
+## pip3
+```sh
+sudo apt-get install python3-pip
 ```
 ## NodeJS v20
 remove and purge the exist nodejs 

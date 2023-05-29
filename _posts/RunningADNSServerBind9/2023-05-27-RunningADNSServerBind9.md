@@ -6,7 +6,7 @@ tags: [docker,dns,bind9]
 ---
 
 ![bind9](/assets/img/bind9.png)
-BIND 9 is a very flexible, full-featured DNS system \ 
+BIND 9 is a very flexible, full-featured DNS system \
 You can deploy BIND for your own local network. \
 I will using ubuntu/bind9 docker image to deploy.
 
@@ -47,7 +47,7 @@ mkdir bind9-dns && cd bind9-dns
 vim docker-compose.yml
 ```
 docker-compose.yml
-```
+```yml
 version: "3"
 
 services:
@@ -66,14 +66,12 @@ services:
       - ./records:/var/lib/bind
     restart: unless-stopped
 ```
-{:file bind9-dns/docker-compose.yml}
+{: file="bind9-dns/docker-compose.yml"}
 
 ## Config 
 Create the main config file, `sudo vim ./config/named.conf`
-```
+```conf
 acl internal {
-  192.168.0.0/24; access control list
-};
 
 options {
   forwarders {
@@ -92,7 +90,7 @@ zone "local.example.com" IN {
 ## Prepare the zone file
 Create the zone file, `sudo vim ./config/local-example-com.zone`
 docs in [bind9](https://bind9.readthedocs.io/en/v9.18.15/chapter3.html#example-com-base-zone-file)
-```
+```conf
 $TTL 2d
 
 $ORIGIN local.example.com.
@@ -108,10 +106,10 @@ $ORIGIN local.example.com.
 
 ns            IN     A      192.168.0.53
 
-dev-srv    IN     A      192.168.0.10
-*.dev-srv  IN     A      192.168.0.10
+dev-srv       IN     A      192.168.0.10
+*.dev-srv     IN     A      192.168.0.10
 
-prod-srv    IN     A      192.168.0.210
+prod-srv      IN     A      192.168.0.210
 
 ```
 ## Add your DNS Records
@@ -124,7 +122,7 @@ docker-compose up -d
 
 ## Test
 Using dig
-```
+```sh
 dig @192.168.0.53 dev-srv.local.example.com
 
 ; <<>> DiG 9.18.12-0ubuntu0.22.04.1-Ubuntu <<>> @192.168.0.53 dev-srv.local.example.com
@@ -147,10 +145,11 @@ dev-srv.local.example.com. 172800 IN   A       192.168.0.10
 ;; SERVER: 192.168.0.53#53(192.168.0.53) (UDP)
 ;; WHEN: Sat May 27 21:42:28 HKT 2023
 ;; MSG SIZE  rcvd: 99
+{}
 ```
 
 using nslookup
-```
+```sh
 nslookup dev-srv.local.example.com 192.168.0.53
 
 Server:  192.168.0.10
