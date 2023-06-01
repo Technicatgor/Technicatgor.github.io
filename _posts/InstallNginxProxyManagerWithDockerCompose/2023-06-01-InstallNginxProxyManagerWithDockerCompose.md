@@ -15,7 +15,7 @@ Nginx is the good choice also. Nginx is more focused on traditional web server f
 
 ## Installation
 Create a docker-compose.yml from [official website](https://nginxproxymanager.com/setup/#running-the-app)
-```
+```yml
 version: '3.8'
 services:
   app:
@@ -77,9 +77,9 @@ docker-compose up -d
 Email:    admin@example.com
 Password: changeme
 ```
-![login](https://linuxhint.com/wp-content/uploads/2021/04/How-to-use-Nginx-Proxy-Manager-1.png)
+![login](https://linuxhint.com/wp-content/uploads/2021/04/How-to-use-Nginx-Proxy-Manager-1.png)\
 
-You will have to update the administrator details initially.
+You will have to update the administrator details initially.\
 ![update](https://linuxhint.com/wp-content/uploads/2021/04/How-to-use-Nginx-Proxy-Manager-2.png)
 
 Main dashboard
@@ -87,16 +87,15 @@ Main dashboard
 
 ## Add Proxy Host
 Navigate to Hosts – Proxy Hosts and click on Add Proxy Host.\
-
-Enter your domain name, scheme, forward hostname /IP and Port
-You can also select Block common exploits for added security.
+Enter your domain name, scheme, forward hostname /IP and Port.\
+You can also select Block common exploits for added security.\
 ![newproxyhost](https://linuxhint.com/wp-content/uploads/2021/04/How-to-use-Nginx-Proxy-Manager-4.png)
 
 Once you have exposed the service, try to access it using the specified hostname or IP and port. This service should be accessible. You can also manage the proxy in the proxy hosts list.
 ![proxyhost](https://linuxhint.com/wp-content/uploads/2021/04/How-to-use-Nginx-Proxy-Manager-5.png)
 
 ## Access List
-In some instances, we may need to expose an application or service on the NPM proxy list to specific IP addresses. To configure this, you can use the NPM Access List.
+In some instances, we may need to expose an application or service on the NPM proxy list to specific IP addresses. To configure this, you can use the NPM Access List.\
 ![accesslist](https://linuxhint.com/wp-content/uploads/2021/04/How-to-use-Nginx-Proxy-Manager-6.png)
 
 On the authorization tab, set the usernames and passwords you will use to log in to the service.
