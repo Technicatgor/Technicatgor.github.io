@@ -72,6 +72,8 @@ services:
 Create the main config file, `sudo vim ./config/named.conf`
 ```conf
 acl internal {
+    192.168.1.0/24;
+};
 
 options {
   forwarders {
