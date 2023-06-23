@@ -63,6 +63,7 @@ go `http://traefik.local:8080`
 ![traefik-dashboard](/assets/img/traefik-01.png)
 
 ## Demo
+![flow](/assets/img/traefik-04.png)
 go back `docker-compose.yml` file, add whoami container \
 whoami default is using 80 port for web server, so no need to use load balancing in traefik.
 ```
@@ -157,5 +158,80 @@ docker-compose up -d
 Now go http://whoami.techcat.local/whoami2 will see below \
 ![traefik-whoami2](/assets/img/traefik-03.png)
 
-## HTTPS
-to be continue...
+## TLS
+Now add a https section into whoami label. \
+enable tls and set the true.
+```
+...
+
+  whoami:
+    image: "traefik/whoami"
+    labels:
+      # http section
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.techcat.local`)"
+      - "traefik.http.routers.whoami.entrypoints=http" 
+      # https section
+      - "traefik.http.routers.whoami-secure.rule=Host(`whoami.techcat.local`)"
+      - "traefik.http.routers.whoami-secure.entrypoints=https"
+      - "traefik.http.routers.whoami-secure.tls=true"
+...
+
+```
+
+## Dynamic config
+Define TLS certificate add into `data/dynamic-config.yml` \
+docs: [https://doc.traefik.io/traefik/https/tls/](https://doc.traefik.io/traefik/https/tls/)
+```
+tls:
+  certificates:
+    certFile = "/certs/cert.crt"
+    keyFile = "/certs/cert.key"
+```
+map a cert and dynamic-config.yml volume into docker-compose.yml
+```
+...
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./data/traefik.yml:/traefik.yml:ro"
+      - "./data/dynamic-config.yml:/dynamic-config.yml:ro"
+      - "./certs:/certs"
+...
+
+```
+docker-compose.yml
+```
+version: "3.8"
+
+services:
+  traefik:
+    image: "traefik:latest"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./data/traefik.yml:/traefik.yml:ro"
+      - "./data/dynamic-config.yml:/dynamic-config.yml:ro"
+      - "./certs:/certs"
+      - "./usersfile:/usersfile:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    labels:
+      - "traefik.enable=true"
+
+      # http section
+      - "traefik.http.routers.whoami.rule=Host(`whoami.techcat.local`)"
+      - "traefik.http.routers.whoami.entrypoints=http"
+      - "traefik.http.routers.whoami.middlewares=https-redirect"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+
+      # https section
+      - "traefik.http.routers.whoami-secure.rule=Host(`whoami.techcat.local`)"
+      - "traefik.http.routers.whoami-secure.entrypoints=https"
+      - "traefik.http.routers.whoami-secure.tls=true"
+      - "traefik.http.routers.whoami-secure.middlewares=test-auth"
+      - "traefik.http.middlewares.test-auth.basicauth.usersfile=/usersfile"
+```
