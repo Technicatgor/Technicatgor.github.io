@@ -107,7 +107,7 @@ whoami:
 
 ...
 ```
-create a usersfile, use htpasswd to generate your id & password \ 
+create a usersfile, use htpasswd to generate your id & password \
 or go [https://hostingcanada.org/htpasswd-generator/](https://hostingcanada.org/htpasswd-generator/) to generate it.
 
 `./data/usersfile`
