@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Installing Private S3 Storage - Minio
-date: 2023-04-24 15:00:00 +800
+date: 2023-06-29 17:00:00 +800
 categories: [Docker, Minio]
 tags: [minio,docker,storage]
 ---
