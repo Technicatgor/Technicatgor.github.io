@@ -16,7 +16,7 @@ is software-defined and open source under GNU AGPL v3.
 
 In this blog, I will install minio using docker-compose. \
 Then I create a bucket for my synology hyperbackup. \
-Just simulate that NAS using Amazon S3 backup environment. \
+Just simulate that NAS using Amazon S3 backup environment.
 
 ## Prerequisite
 - docker-compose
