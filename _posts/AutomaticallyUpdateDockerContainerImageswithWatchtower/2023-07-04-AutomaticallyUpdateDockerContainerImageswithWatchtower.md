@@ -16,6 +16,8 @@ If watchtower detects that an image has changed, it will automatically restart t
 ## Installation
 Create a docker-compose.yml
 ```yml
+{% raw %}
+
 version: '3'
 services:
   watchtower:
@@ -51,7 +53,10 @@ services:
         {{- else -}}
           {{range .Entries -}}{{.Message}}{{"\n"}}{{- end -}}
         {{- end -}}
+
+{% endraw %}
 ```
+
 Add your Discord channel id & token into `.env` \
 The link of webhook look like this `https://discord.com/api/webhooks/1125487910304870422/V5aQwFzeAy5zcxMNykSy8PZXMmfUSCLlh6Bcf0DHCQzFlfvaKTmNDorFosUjj-d-NZIQ`
 ```env
