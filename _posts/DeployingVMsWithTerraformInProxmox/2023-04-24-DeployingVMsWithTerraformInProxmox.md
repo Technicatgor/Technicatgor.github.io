@@ -1,21 +1,79 @@
 ---
 layout: post
 title: Deploying VMs With Terraform In Proxmox
-date: 2023-04-24 15:00:00 +800
+date: 2023-07-11 15:00:00 +800
 categories: [DevOps,Terraform]
 tags: [terraform,proxmox,homelab]
 ---
+## Terraform
+![banner](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*JZV49LQUvk73CYqwcsqMGA.png)
+
+## Prerequisites
+1. Promxox Server
+
+## Resources
+
+1. [Debian Cloud Images](https://cloud.debian.org/images/cloud/)
+2. [Terraform Proxmox Provider](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs)
+
+
+## Install libguestfs-tools
+```
+ssh root@proxmox-server
+
+apt update && apt install libguestfs-tools -y
+```
+
+## Download debian cloud image
+```
+wget https://cloud.debian.org/images/cloud/bullseye/latest/debian-12-generic-arm64.qcow2
+```
+
+## Install qemu-guest-agent in the cloud image
+```
+virt-customize -a debian-12-generic-amd64.qcow2 --install qemu-guest-agent
+```
+
+## Create VM Template
+```
+qm create 9001 --name "debian-12-cloudinit-template" --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
+qm importdisk 9001 debian-12-generic-amd64.qcow2 local-lvm
+qm set 9001 --scsi0 local-lvm:9001/vm-9001-disk-0.raw
+qm set 9001 --boot c --bootdisk scsi0
+qm set 9001 --ide2 local-lvm:cloudinit
+qm set 9001 --serial0 socket --vga serial0
+qm set 9001 --agent enabled=1
+
+qm template 9001
+```
+
+## Create a role and user for terraform
+1. Create Role
+```
+pveum role add terraform_role -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit Sys.Console Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.Cloudinit VM.Config.CPU VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Migrate VM.Monitor VM.PowerMgmt"
+```
+
+2. Create User
+```
+pveum user add terraform_user@pve --password terraform
+```
+
+3. Map Role to User
+```
+pveum aclmod / -user terraform_user@pve -role terraform_role
+```
 
 ## Install Terraform
+Go back your Jarvis PC (controller)
 ```bash
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt update
 sudo apt install terraform -y
 ```
-## Create a API Token Key on Proxmox
 
 ## Structure
+The file structure will like this.
 ```sh
 .
 ├── vars.tfvars
@@ -24,29 +82,58 @@ sudo apt install terraform -y
 └── terraform.tfstate
 ```
 
-## Terraform init and provider install
-
-create a `main.tf` 
+## Terraform init
+1. Create a `provider.tf`
 ```tf
+variable "pm_api_url" {
+  type = string
+}
+
+variable "pm_user" {
+  type = string
+}
+
+variable "pm_password" {
+  type      = string
+  sensitive = true
+}
+
 terraform {
-    required_providers {
-      proxmox = {
-        source  = "telmate/proxmox",
-        version = "2.9.11" # 2.9.14 still has a bug, so using 2.9.11
-      }
+  required_providers {
+    proxmox = {
+      source  = "telmate/proxmox"
+      version = "2.9.14"
     }
   }
+}
+
+provider "proxmox" {
+  pm_api_url      = var.pm_api_url
+  pm_user         = var.pm_user
+  pm_password     = var.pm_password
+  pm_tls_insecure = true
+}
 ```
-then run `terraform init`
+2. Create `terraform.tfvars` to contain your credentials.
 ```
-root@pve:~/terraform# terraform init
+pm_api_url              = "https://192.168.1.100:8006/api2/json"
+pm_user                 = "terraform_user@pve"
+pm_password             = "terraform"
+cloudinit_template_name = "debian-12-cloudinit-template"
+proxmox_node            = "pve"
+ssh_key                 = "ssh-rsa your-ssh-key-here"
+```
+
+3. Run `terraform init`
+```
+heston@mac:~/terraform# terraform init
 
 Initializing the backend...
 
 Initializing provider plugins...
-- Finding telmate/proxmox versions matching "2.9.11"...
-- Installing telmate/proxmox v2.9.11...
-- Installed telmate/proxmox v2.9.11 (self-signed, key ID A9EBBE091B3A834E)
+- Finding telmate/proxmox versions matching "2.9.14"...
+- Installing telmate/proxmox v2.9.14...
+- Installed telmate/proxmox v2.9.14 (self-signed, key ID A9EBBE091B3A834E)
 
 Partner and community providers are signed by their developers.
 If you'd like to know more about provider signing, you can read about it here:
@@ -69,96 +156,80 @@ commands will detect it and remind you to do so if necessary.
 ```
 
 ## Terraform Plan
-
+1. Create main.tf
 ```tf
-variable "ubuntu_user" {
-    type = string
+variable "cloudinit_template_name" {
+  type = string
 }
 
-variable "ubuntu_password" {
-    type = string
-    sensitive = true
+variable "proxmox_node" {
+  type = string
 }
 
-variable "pm_api_url" {
-    type = string
-
-}
-variable "pm_api_token_id" {
-    type = string
-
-}
-variable "pm_api_token_secret" {
-    type = string
-    sensitive = true
+variable "ssh_key" {
+  type      = string
+  sensitive = true
 }
 
-terraform {
-    required_providers {
-      proxmox = {
-        source  = "telmate/proxmox",
-        version = "2.9.11"
-      }
-    }
-  }
-
-provider "proxmox" {
-    pm_api_url          = var.pm_api_url
-    pm_api_token_id     = var.pm_api_token_id
-    pm_api_token_secret = var.pm_api_token_secret
-    pm_tls_insecure     = true
-  }
-
-resource "proxmox_vm_qemu" "ubuntu-server" {
+resource "proxmox_vm_qemu" "k8s-1" {
   count       = 1
-  vmid        = "50${count.index + 1}"
-  name        = "server-${count.index + 1}"
-  target_node = "pve"
-  desc        = "ubuntu-server"
-  os_type     = "cloud-init"
-  ciuser      = var.ubuntu_user
-  cipassword  = var.ubuntu_password
-  clone       = "ubuntu-server-template"
-  onboot      = true
+  name        = "k8s-0${count.index + 1}"
+  vmid        = "100${count.index + 1}"
+  target_node = var.proxmox_node
+  clone       = var.cloudinit_template_name
   agent       = 1
+  os_type     = "cloud-init"
   cores       = 2
   sockets     = 1
-  cpu         = "kvm64"
-  memory      = 4096
+  cpu         = "host"
+  memory      = 2048
   balloon     = 1024
-  network {
-    bridge = "vmbr0"
-    model  = "virtio"
+  scsihw      = "virtio-scsi-pci"
+  bootdisk    = "scsi0"
+
+  disk {
+    slot    = 0
+    size    = "20G"
+    type    = "scsi"
+    storage = "local"
   }
-  ipconfig0  = "ip=192.168.50.5${count.index + 1}/24,gw=192.168.50.254"
-  nameserver = "1.1.1.1"
+
+  network {
+    model  = "virtio"
+    bridge = "vmbr1"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      network,
+    ]
+  }
+
+  ipconfig0  = "ip=10.0.1.20${count.index + 1}/24,gw=10.0.1.1"
+  nameserver = "10.0.1.53"
+
+  sshkeys = <<EOF
+  ${var.ssh_key}
+  EOF
+
 }
 ```
 {: file='main.tf'}
 
-demo.tfvars
-```
-ubuntu_user="packer"
-ubuntu_password="P@ssw0rd"
-pm_api_url="https://192.168.50.250:8006/api2/json"
-pm_api_token_id="root@pam!terraform"
-pm_api_token_secret="your-api-token-here"
-```
-{: file='demo.tfvars'}
-
-Then `terraform plan -var-file=demo.tfvars`
+## Terraform Plan
+1. Run `terraform plan`
 you will see `Plan: 1 to add, 0 to change, 0 to destroy.`
 
 ## Terraform Apply 
 ```sh
-terraform apply -var-file=demo.tfvars --auto-approve
+terraform apply
 ```
 you will see `Apply complete! Resources: 1 added, 0 changed, 0 destroyed.`
 
 ## Terraform Destroy
 
 ```sh
-terraform destroy -var-file=demo.tfvars --auto-approve
+terraform destroy 
 ```
 you will see `Destroy complete! Resources: 1 destroyed.`
 

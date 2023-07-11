@@ -17,7 +17,6 @@ If watchtower detects that an image has changed, it will automatically restart t
 Create a docker-compose.yml
 ```yml
 {% raw %}
-
 version: '3'
 services:
   watchtower:
@@ -53,13 +52,13 @@ services:
         {{- else -}}
           {{range .Entries -}}{{.Message}}{{"\n"}}{{- end -}}
         {{- end -}}
-
 {% endraw %}
 ```
 
 Add your Discord channel id & token into `.env` \
-The link of webhook look like this `https://discord.com/api/webhooks/1125487910304870422/V5aQwFzeAy5zcxMNykSy8PZXMmfUSCLlh6Bcf0DHCQzFlfvaKTmNDorFosUjj-d-NZIQ`
-```env
+The link of webhook look like this `https://discord.com/api/webhooks/1125487910304870422/V5aQwFzeAy5zcxMNykSy8PZXMmfUSCLlh6Bcf0DHCQzFlfvaKTmNDorFosUjj-d-NZIQ` \
+
+```
 TOKEN=V5aQwFzeAy5zcxMNykSy8PZXMmfUSCLlh6Bcf0DHCQzFlfvaKTmNDorFosUjj-d-NZIQ
 CHANNEL_ID=1125487910304870422
 ```
@@ -68,11 +67,11 @@ docker compose up
 docker-compose up -d
 ```
 You can see all watchtower logs using command `docker-compose logs` \
-or using dizzle to check the logs \
+or using dizzle to check the logs 
 
 Here is the logs
 
-```
+```sh
 watchtower    | time="2023-07-04T01:01:08+08:00" level=info msg="Creating /traefik"
 watchtower    | time="2023-07-04T01:01:08+08:00" level=debug msg="Starting container /traefik (41ca12056e84)"
 watchtower    | time="2023-07-04T01:01:08+08:00" level=info msg="Creating /bind9-dns"
