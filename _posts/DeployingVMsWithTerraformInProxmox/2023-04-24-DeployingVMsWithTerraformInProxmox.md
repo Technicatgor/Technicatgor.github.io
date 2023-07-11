@@ -76,7 +76,8 @@ sudo apt install terraform -y
 The file structure will like this.
 ```sh
 .
-├── vars.tfvars
+├── terraform.tfvars
+├── provider.tf
 ├── main.tf
 ├── README.md
 └── terraform.tfstate
@@ -84,6 +85,7 @@ The file structure will like this.
 
 ## Terraform init
 1. Create a `provider.tf`
+
 ```tf
 variable "pm_api_url" {
   type = string
@@ -114,7 +116,9 @@ provider "proxmox" {
   pm_tls_insecure = true
 }
 ```
+
 2. Create `terraform.tfvars` to contain your credentials.
+
 ```
 pm_api_url              = "https://192.168.1.100:8006/api2/json"
 pm_user                 = "terraform_user@pve"
@@ -158,6 +162,7 @@ commands will detect it and remind you to do so if necessary.
 ## Terraform Plan
 1. Create main.tf
 ```tf
+{% raw %}
 variable "cloudinit_template_name" {
   type = string
 }
@@ -212,18 +217,22 @@ resource "proxmox_vm_qemu" "k8s-1" {
   ${var.ssh_key}
   EOF
 
+{% endraw %}
 }
 ```
 {: file='main.tf'}
 
 ## Terraform Plan
 1. Run `terraform plan`
+
 you will see `Plan: 1 to add, 0 to change, 0 to destroy.`
 
 ## Terraform Apply 
+
 ```sh
 terraform apply
 ```
+
 you will see `Apply complete! Resources: 1 added, 0 changed, 0 destroyed.`
 
 ## Terraform Destroy
@@ -231,5 +240,6 @@ you will see `Apply complete! Resources: 1 added, 0 changed, 0 destroyed.`
 ```sh
 terraform destroy 
 ```
+
 you will see `Destroy complete! Resources: 1 destroyed.`
 
