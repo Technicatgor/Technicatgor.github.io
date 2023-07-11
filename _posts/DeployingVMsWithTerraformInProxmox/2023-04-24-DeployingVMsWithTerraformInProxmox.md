@@ -129,7 +129,8 @@ ssh_key                 = "ssh-rsa your-ssh-key-here"
 ```
 
 3. Run `terraform init`
-```
+
+```sh
 heston@mac:~/terraform# terraform init
 
 Initializing the backend...
@@ -160,7 +161,9 @@ commands will detect it and remind you to do so if necessary.
 ```
 
 ## Terraform Plan
+
 1. Create main.tf
+
 ```tf
 {% raw %}
 variable "cloudinit_template_name" {
@@ -216,7 +219,6 @@ resource "proxmox_vm_qemu" "k8s-1" {
   sshkeys = <<EOF
   ${var.ssh_key}
   EOF
-
 {% endraw %}
 }
 ```
