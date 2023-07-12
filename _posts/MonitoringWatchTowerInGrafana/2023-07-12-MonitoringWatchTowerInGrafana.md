@@ -18,8 +18,9 @@ A process for automating Docker container base image updates.\
 4. Discord(for notification)
 
 ## Installation
-1. Create `docker-compose.yml` for deploy WatchTower
-```yml
+1. Create `docker-compose.yml` for deploy WatchTower.\
+
+```yaml
 {% raw %}
 version: '3.8'
 services:
@@ -62,18 +63,21 @@ services:
         {{- end -}}
 {% endraw %}
 ```
+
 > if you want to monitor remote server, add below line into environment.\
 `DOCKER_HOST: "tcp://remote-docker-server:2375"`
 
 2. Up the container `docker-compose up -d`
 
 3. Check the process, it will show like this below
+
 ```
 94345236d0d4   containrrr/watchtower           "/watchtower"            1 days ago      Up 1 days     0.0.0.0:8080->8080/tcp                                     watchtower
 ```
 
 ## Configure Prometheus 
 1. Edit your prometheus.yml
+
 ```
 scrape_configs:
  - job_name: watchtower
@@ -100,10 +104,13 @@ update soon...
 Enable TCP port 2375 for external connection:
 ---
 1. Create `daemon.json` file in `/etc/docker`:
+
 ```
 {"hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]}
 ```
+
 2. Add `/etc/systemd/system/docker.service.d/override.conf`
+
 ```
 [Service]
 ExecStart=
@@ -111,18 +118,22 @@ ExecStart=/usr/bin/dockerd
 ```
 
 3. Reload the systemd daemon:
+
 ```
 systemctl daemon-reload
 ```
 
 4. Restart docker:
+
 ```
 systemctl restart docker.service
 ```
 5. Test your port is open with another device, I use netcat for scan. you can use telnet also
+
 ```
 nc -zv dockersrv 2375
 ```
+
 ```
 Connection to dockersrv (10.0.50.11) 2375 port [tcp/*] succeeded!
 ```
