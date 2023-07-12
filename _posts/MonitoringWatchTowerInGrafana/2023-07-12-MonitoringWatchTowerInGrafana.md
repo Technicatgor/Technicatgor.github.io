@@ -7,7 +7,7 @@ tags: [kubernetes,monitoring,prometheus,grafana,dashboard,watchtower]
 ---
 
 ## WatchTower 
-![banner](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwzYgYHkvG7PmEHhvblaTKbYxF7-fYAxA-ww&usqp=CAU)
+![banner](https://marc.tv/media/2020/02/docker-watchtower.jpg)
 A process for automating Docker container base image updates.\
 
 ## Prerequisite
@@ -87,10 +87,10 @@ scrape_configs:
 2. Go to prometheus webui to check the target status.\
 `http://prometheus:9090/targets?search=` \
 something like below,
-![watchtower-01](/asset/img/watchtower-01.png)
+![watchtower-01](/assets/img/watchtower-01.png)
 
 3. Then logon Grafana and import watchtower dashboard.
-![watchtower-02](/asset/img/watchtower-02.png)
+![watchtower-02](/assets/img/watchtower-02.png)
 
 ---
 Kubernetes prometheus config
