@@ -6,18 +6,18 @@ categories: [Hypervisors,Proxmox]
 tags: [proxmox,homelab]
 ---
 
-##Create your TOTP 
+## Create your TOTP 
 Login your pve, and click Datacenter > Permissions > Two Factor
 ![TOTP-1](/assets/img/TOTP-1.png)
 
-##Add your first TOTP
+## Add your first TOTP
 Click add then pop the QR code window. Enter the description and using eg.Google Authenicator by your phone.
 ![TOTP-2](/assets/img/TOTP-2.png)
 After your scan it by your mobile then enter the verification code.
 
 Now you can logout and re-login that will request your TOTP Authenication.
 
-##Setup on SSH
+## Setup on SSH
 We just setup 2FA in web-UI login. Now we setup TOTP Authenication on SSH also.
 
 1. To install Google Authenticator on pve
@@ -60,6 +60,6 @@ PasswordAuthentication no
 service sshd restart
 ```
 
-##Reference
+## Reference
 [https://kb.nomachine.com/AR12L00828](https://kb.nomachine.com/AR12L00828)
 
