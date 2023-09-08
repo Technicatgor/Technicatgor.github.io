@@ -3,10 +3,12 @@ layout: post
 title: Getting Started With Nix
 date: 2023-08-21 13:00:00 +800
 categories: [Linux,Nix]
-tars: [linux,nix,dev]
+tags: [linux,nix,dev]
+image:
+  path: /assets/img/headers/preview-nix.png
+  lqip: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8gAAAH4CAIAAAAZ1VPRAALJIklEQVR4Aeyah5IbuxVE0aQ3h/eUv8L//1MOm/NumxaKp9TVZInO4e1d1QgDXNyMHgyG+vj59+Od
 ---
 ## Nix 
-![banner](https://serokell.io/static/images/og/preview-nix.png)
 Nix is a declarative package manager that enables users to declare the desired system state in configuration files(declarative configuration), and it takes responsibility for achieving that state.
 
 ## Prerequisites
