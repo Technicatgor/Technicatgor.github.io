@@ -5,7 +5,7 @@ date: 2023-10-16 09:00:00 +800
 categories: [Container]
 tags: [container, homelab]
 image:
-  path: /assets/img/headers/Kam_cover.jpeg
+  path: /assets/img/headers/Kasm_cover.jpeg
   lqip:
 ---
 
