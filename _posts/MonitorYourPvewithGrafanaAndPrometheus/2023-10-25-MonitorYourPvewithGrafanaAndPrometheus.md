@@ -18,7 +18,7 @@ image:
   - Create a user name as prometheus@pve
   ![create_user](/assets/img/create_user.png)
   - Add group permissions
-  ![add_group_permission](/assets/img/add_group_permission)
+  ![add_group_permission](/assets/img/add_group_permission.png)
 
 2. Docker
 3. Prepare 1 node for deploy prompve/prometheus-pve-exporter
