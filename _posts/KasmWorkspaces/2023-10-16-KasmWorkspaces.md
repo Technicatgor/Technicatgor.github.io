@@ -6,7 +6,7 @@ categories: [Container]
 tags: [container, homelab]
 image:
   path: /assets/img/headers/Kasm_cover.jpeg
-  lqip:
+  lqip: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8gAAAH4CAIAAAAZ1VPRAALJIklEQVR4Aeyah5IbuxVE0aQ3h/eUv8L//1MOm/NumxaKp9TVZInO4e1d1QgDXNyMHgyG+vj59+Od
 ---
 
 ## Getting Started
