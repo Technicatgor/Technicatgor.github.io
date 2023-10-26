@@ -146,6 +146,8 @@ providers:
   options:
     path: /etc/grafana/provisioning/dashboards
 ```
+- provisioning your dashboard, your can import a json for your pve monitoring.
+[pve_with_prom.json](/assets/file/pve_with_prom.json)
 
 ## Deploy Prometheus & Grafana with using Docker 
 
