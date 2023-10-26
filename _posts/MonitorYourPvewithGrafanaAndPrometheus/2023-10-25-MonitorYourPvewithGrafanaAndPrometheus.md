@@ -25,9 +25,25 @@ image:
 
 ## Installation
 
-### Docker node
-Create a config file 
+### Project Structure
 ```
+.
+├── docker-compose.yml
+├── grafana
+│   └── provisioning
+│       ├──── dashboards
+│       │     ├─── dashboard.yml
+│       │     └─── pve_with_prom.json
+│       └──── datasources
+│             └── datasource.yml
+└── prometheus
+    └── prometheus.yml
+```
+
+### Docker node
+prometheus-pve-exporter is for scraping metrics from pve.
+Create a config file `pve.yml`
+```yml
 default:
     user: prometheus@pve
     password: password
@@ -35,17 +51,18 @@ default:
     verify_ssl: true
 ```
 or for token authenication
-```
+```yml
 default:
     user: prometheus@pve
     token_name: "your-token-id"
     token_value: "..."
 ```
 create a `docker-run.sh`
-```
+```bash
 docker run --init --name prometheus-pve-exporter -d -p 127.0.0.1:9221:9221 -v ./pve.yml:/etc/pve.yml prompve/prometheus-pve-exporter
 ```
-## Prometheus config
+
+## Prepare Prometheus config
 prometheus.yml
 ```yml
 scrape_configs:
@@ -70,7 +87,7 @@ scrape_configs:
         replacement: 127.0.0.1:9221  # PVE exporter.
 ```
 
-## Grafana config.env & provisioning
+## Prepare Grafana config.env & provisioning
 `config.env`
 ```
 GF_SECURITY_ADMIN_PASSWORD=password
@@ -146,7 +163,7 @@ providers:
   options:
     path: /etc/grafana/provisioning/dashboards
 ```
-- provisioning your dashboard, your can import a json for your pve monitoring.
+- provisioning your dashboard, your can import a json for your pve monitoring. \
 [pve_with_prom.json](/assets/file/pve_with_prom.json)
 
 ## Deploy Prometheus & Grafana with using Docker 
@@ -210,12 +227,34 @@ Run `docker-compose up -d`
 Import dashboard ID - 10347
 
 ## Additional
-Monitor container metrics
-### Cadvisor
+
+### Cadvisor - Monitor containers metrics
 Install cadvisor in docker-server
 `docker-compose.yml`
 ```yml
-
-
+version: '3.9'
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    privileged: true
+    ports:
+    - 8080:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    - /dev/disk/:/dev/disk:ro
 ```
+cadvisor dashboard here - [cadvisor](/assets/file/cadvisor.json)
 
+`prometheus.yml`
+```
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+    - targets:
+      - cadvisor:8080
+```
+![cadvisor](/assets/img/cadvisor.png)
