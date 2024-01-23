@@ -1,6 +1,4 @@
-/*
-  The common styles
-*/
+/* The common styles */
 
 html {
   @media (prefers-color-scheme: light) {
@@ -73,52 +71,11 @@ img {
   height: auto;
   transition: all 0.35s ease-in-out;
 
-  &[data-src] {
-    &[data-lqip='true'] {
-      &.lazyload,
-      &.lazyloading {
-        -webkit-filter: blur(20px);
-        filter: blur(20px);
-      }
-    }
+  .blur & {
+    $blur: 20px;
 
-    &:not([data-lqip='true']) {
-      &.lazyload,
-      &.lazyloading {
-        background: var(--img-bg);
-      }
-
-      &.lazyloaded {
-        -webkit-animation: fade-in 0.35s ease-in;
-        animation: fade-in 0.35s ease-in;
-      }
-    }
-
-    &.shadow {
-      -webkit-filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.08));
-      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.08));
-      box-shadow: none !important; /* cover the Bootstrap 4.6.1 styles */
-    }
-
-    @extend %img-caption;
-  }
-
-  @-webkit-keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    -webkit-filter: blur($blur);
+    filter: blur($blur);
   }
 }
 
@@ -126,6 +83,10 @@ blockquote {
   border-left: 5px solid var(--blockquote-border-color);
   padding-left: 1rem;
   color: var(--blockquote-text-color);
+
+  > p:last-child {
+    margin-bottom: 0;
+  }
 
   &[class^='prompt-'] {
     border-left: 0;
@@ -143,10 +104,6 @@ blockquote {
       margin-top: 0.4rem;
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
-    }
-
-    > p:last-child {
-      margin-bottom: 0;
     }
   }
 
@@ -173,12 +130,11 @@ kbd {
 }
 
 footer {
-  font-size: 0.8rem;
   background-color: var(--main-bg);
   height: $footer-height;
   border-top: 1px solid var(--main-border-color);
 
-  @extend %text-color;
+  @extend %text-xs;
 
   a {
     @extend %text-highlight;
@@ -189,7 +145,6 @@ footer {
   }
 
   p {
-    line-height: 1.75;
     text-align: center;
     margin-bottom: 0;
   }
@@ -216,7 +171,7 @@ i {
     position: sticky;
   }
 
-  > div {
+  > section {
     padding-left: 1rem;
     border-left: 1px solid var(--main-border-color);
 
@@ -225,7 +180,7 @@ i {
     }
   }
 
-  .post-content {
+  .content {
     font-size: 0.9rem;
   }
 }
@@ -233,6 +188,9 @@ i {
 #panel-wrapper {
   /* the headings */
   .panel-heading {
+    font-family: inherit;
+    line-height: inherit;
+
     @include label(inherit);
   }
 
@@ -270,6 +228,8 @@ i {
       margin-bottom: 0.3rem;
     }
 
+    @extend %sup-fn-target;
+
     > p {
       margin-left: 0.25em;
       margin-top: 0;
@@ -284,8 +244,11 @@ i {
     @include pl-pr(2px);
 
     border-bottom-style: none !important;
-    transition: background-color 1.5s ease-in-out;
   }
+}
+
+sup {
+  @extend %sup-fn-target;
 }
 
 .reversefootnote {
@@ -341,6 +304,31 @@ i {
 
 /* --- post --- */
 
+.preview-img {
+  aspect-ratio: 40 / 21;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  @extend %rounded;
+
+  &:not(.no-bg) {
+    background: var(--img-bg);
+  }
+
+  img {
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+
+    @extend %rounded;
+
+    @at-root #post-list & {
+      width: 100%;
+    }
+  }
+}
+
 .post-preview {
   @extend %rounded;
 
@@ -367,24 +355,33 @@ i {
   }
 }
 
-.post {
+main {
+  line-height: 1.75;
+
   h1 {
     margin-top: 2rem;
     margin-bottom: 1.5rem;
   }
 
   p {
-    > img[data-src],
     > a.popup {
       &:not(.normal):not(.left):not(.right) {
         @include align-center;
       }
     }
   }
+
+  .categories,
+  #tags,
+  #archives {
+    a:not(:hover) {
+      @extend %no-bottom-border;
+    }
+  }
 }
 
 .post-meta {
-  font-size: 0.85rem;
+  @extend %text-sm;
 
   a {
     &:not([class]):hover {
@@ -397,7 +394,7 @@ i {
   }
 }
 
-.post-content {
+.content {
   font-size: 1.08rem;
   margin-top: 2rem;
   overflow-wrap: break-word;
@@ -479,7 +476,7 @@ i {
   ::marker {
     color: var(--text-muted-color);
   }
-} /* .post-content */
+} /* .content */
 
 .tag:hover {
   @extend %tag-hover;
@@ -520,14 +517,15 @@ i {
     background: var(--shimmer-bg);
     height: 100%;
     width: 100%;
-    -webkit-animation: shimmer 1s infinite;
-    animation: shimmer 1s infinite;
+    -webkit-animation: shimmer 1.3s infinite;
+    animation: shimmer 1.3s infinite;
   }
 
   @-webkit-keyframes shimmer {
     0% {
       transform: translateX(-100%);
     }
+
     100% {
       transform: translateX(100%);
     }
@@ -537,6 +535,7 @@ i {
     0% {
       transform: translateX(-100%);
     }
+
     100% {
       transform: translateX(100%);
     }
@@ -550,7 +549,8 @@ i {
 
   @extend %rounded;
 
-  &.youtube {
+  &.youtube,
+  &.bilibili {
     aspect-ratio: 16 / 9;
   }
 
@@ -639,12 +639,12 @@ i {
 
 .left {
   float: left;
-  margin: 0.75rem 1rem 1rem 0 !important;
+  margin: 0.75rem 1rem 1rem 0;
 }
 
 .right {
   float: right;
-  margin: 0.75rem 0 1rem 1rem !important;
+  margin: 0.75rem 0 1rem 1rem;
 }
 
 /* --- Overriding --- */
@@ -675,7 +675,6 @@ mjx-container {
 /* --- sidebar layout --- */
 
 $sidebar-display: 'sidebar-display';
-$btn-gap: 0.8rem; // for the bottom icons
 $btn-border-width: 3px;
 $btn-mb: 0.5rem;
 
@@ -738,6 +737,7 @@ $btn-mb: 0.5rem;
   }
 
   .site-title {
+    font-family: inherit;
     font-weight: 900;
     font-size: 1.75rem;
     line-height: 1.2;
@@ -815,13 +815,15 @@ $btn-mb: 0.5rem;
   }
 
   .sidebar-bottom {
-    @include pl-pr(2rem);
-
+    padding-left: 2rem;
+    padding-right: 1rem;
     margin-bottom: 1.5rem;
 
+    $btn-size: 1.75rem;
+
     %button {
-      width: 1.75rem;
-      height: 1.75rem;
+      width: $btn-size;
+      height: $btn-size;
       margin-bottom: $btn-mb; // multi line gap
       border-radius: 50%;
       color: var(--sidebar-btn-color);
@@ -843,12 +845,12 @@ $btn-mb: 0.5rem;
       @extend %clickable-transition;
 
       &:not(:last-child) {
-        margin-right: $btn-gap;
+        margin-right: $sb-btn-gap;
       }
     }
 
     i {
-      line-height: 1.75rem;
+      line-height: $btn-size;
     }
 
     .mode-toggle {
@@ -862,7 +864,7 @@ $btn-mb: 0.5rem;
 
     .icon-border {
       @extend %no-cursor;
-      @include ml-mr(calc(($btn-gap - $btn-border-width) / 2));
+      @include ml-mr(calc(($sb-btn-gap - $btn-border-width) / 2));
 
       background-color: var(--sidebar-btn-color);
       content: '';
@@ -894,7 +896,7 @@ $btn-mb: 0.5rem;
   width: 100%;
   overflow: auto;
 
-  .post-content {
+  .content {
     margin-top: 2rem;
   }
 }
@@ -907,8 +909,7 @@ $btn-mb: 0.5rem;
 }
 
 #topbar {
-  /* icons */
-  i {
+  button i {
     color: #999999;
   }
 
@@ -932,16 +933,51 @@ $btn-mb: 0.5rem;
   }
 } /* #topbar */
 
-#sidebar-trigger,
-#search-trigger {
-  display: none;
+::-webkit-input-placeholder {
+  @include placeholder;
 }
 
-#search-wrapper {
+::-moz-placeholder {
+  @include placeholder;
+}
+
+:-ms-input-placeholder {
+  @include placeholder;
+}
+
+::-ms-input-placeholder {
+  @include placeholder;
+}
+
+::placeholder {
+  @include placeholder;
+}
+
+:focus::-webkit-input-placeholder {
+  @include placeholder-focus;
+}
+
+:focus::-moz-placeholder {
+  @include placeholder-focus;
+}
+
+:focus:-ms-input-placeholder {
+  @include placeholder-focus;
+}
+
+:focus::-ms-input-placeholder {
+  @include placeholder-focus;
+}
+
+:focus::placeholder {
+  @include placeholder-focus;
+}
+
+search {
   display: flex;
   width: 100%;
   border-radius: 1rem;
-  border: 1px solid var(--search-wrapper-border-color);
+  border: 1px solid var(--search-border-color);
   background: var(--main-bg);
   padding: 0 0.5rem;
 
@@ -952,10 +988,14 @@ $btn-mb: 0.5rem;
   }
 }
 
+#sidebar-trigger,
+#search-trigger {
+  display: none;
+}
+
 /* 'Cancel' link */
 #search-cancel {
   color: var(--link-color);
-  margin-left: 0.75rem;
   display: none;
   white-space: nowrap;
 
@@ -972,24 +1012,6 @@ $btn-mb: 0.5rem;
 
   &:focus {
     box-shadow: none;
-
-    &.form-control {
-      &::-moz-placeholder {
-        @include input-placeholder;
-      }
-      &::-webkit-input-placeholder {
-        @include input-placeholder;
-      }
-      &:-ms-input-placeholder {
-        @include input-placeholder;
-      }
-      &::-ms-input-placeholder {
-        @include input-placeholder;
-      }
-      &::placeholder {
-        @include input-placeholder;
-      }
-    }
   }
 }
 
@@ -1035,7 +1057,7 @@ $btn-mb: 0.5rem;
     line-height: 2.5rem;
   }
 
-  > div {
+  > article {
     width: 100%;
 
     &:not(:last-child) {
@@ -1073,19 +1095,6 @@ $btn-mb: 0.5rem;
   white-space: nowrap;
 }
 
-#core-wrapper {
-  line-height: 1.75;
-  min-height: calc(100vh - $topbar-height - $footer-height);
-
-  .categories,
-  #tags,
-  #archives {
-    a:not(:hover) {
-      @extend %no-bottom-border;
-    }
-  }
-}
-
 #mask {
   display: none;
   position: fixed;
@@ -1099,18 +1108,28 @@ $btn-mb: 0.5rem;
   }
 }
 
-/* --- main wrapper --- */
+/* --- basic wrappers --- */
 
 #main-wrapper {
   position: relative;
 
   @include pl-pr(0);
+
+  > .container {
+    min-height: 100vh;
+  }
 }
 
 #topbar-wrapper.row,
-#main > .row,
+#main-wrapper > .container > .row,
 #search-result-wrapper > .row {
   @include ml-mr(0);
+}
+
+#tail-wrapper {
+  > :not(script) {
+    margin-top: 3rem;
+  }
 }
 
 /* --- button back-to-top --- */
@@ -1204,10 +1223,8 @@ $btn-mb: 0.5rem;
 */
 
 @media all and (max-width: 576px) {
-  #core-wrapper {
-    min-height: calc(100vh - $topbar-height - $footer-height-large);
-
-    .post-content {
+  main {
+    .content {
       > blockquote[class^='prompt-'] {
         @include ml-mr(-1rem);
 
@@ -1232,7 +1249,7 @@ $btn-mb: 0.5rem;
     @extend %full-width;
   }
 
-  #main {
+  #main-wrapper > .container {
     @extend %full-width;
     @include pl-pr(0);
   }
@@ -1263,7 +1280,7 @@ $btn-mb: 0.5rem;
     }
 
     #main-wrapper {
-      transform: translateX(#{$sidebar-width});
+      transform: translateX($sidebar-width);
     }
 
     #back-to-top {
@@ -1274,8 +1291,8 @@ $btn-mb: 0.5rem;
   #sidebar {
     @include slide;
 
-    transform: translateX(-#{$sidebar-width}); /* hide */
-    -webkit-transform: translateX(-#{$sidebar-width});
+    transform: translateX(-$sidebar-width); /* hide */
+    -webkit-transform: translateX(-$sidebar-width);
   }
 
   #main-wrapper {
@@ -1283,7 +1300,7 @@ $btn-mb: 0.5rem;
   }
 
   #topbar,
-  #main {
+  #main-wrapper > .container {
     max-width: 100%;
   }
 
@@ -1292,7 +1309,7 @@ $btn-mb: 0.5rem;
   }
 
   #breadcrumb,
-  #search-wrapper {
+  search {
     display: none;
   }
 
@@ -1302,7 +1319,7 @@ $btn-mb: 0.5rem;
     left: 0;
   }
 
-  #core-wrapper,
+  main,
   #panel-wrapper {
     margin-top: 0;
   }
@@ -1313,7 +1330,7 @@ $btn-mb: 0.5rem;
     display: block;
   }
 
-  #search-result-wrapper .post-content {
+  #search-result-wrapper .content {
     letter-spacing: 0;
   }
 
@@ -1324,7 +1341,7 @@ $btn-mb: 0.5rem;
   h1.dynamic-title {
     display: none;
 
-    ~ .post-content {
+    ~ .content {
       margin-top: 2.5rem;
     }
   }
@@ -1351,7 +1368,7 @@ $btn-mb: 0.5rem;
     display: none;
   }
 
-  #search-wrapper {
+  search {
     max-width: $search-max-width;
   }
 
@@ -1360,13 +1377,13 @@ $btn-mb: 0.5rem;
     justify-content: start !important;
   }
 
-  .post {
+  main {
     h1 {
       margin-top: 3rem;
     }
   }
 
-  div.post-content .table-wrapper > table {
+  div.content .table-wrapper > table {
     min-width: 70%;
   }
 
@@ -1383,7 +1400,7 @@ $btn-mb: 0.5rem;
 
 /* Pad horizontal */
 @media all and (min-width: 992px) and (max-width: 1199px) {
-  #main .col-lg-11 {
+  #main-wrapper > .container .col-lg-11 {
     flex: 0 0 96%;
     max-width: 96%;
   }
@@ -1410,7 +1427,7 @@ $btn-mb: 0.5rem;
     display: none;
   }
 
-  #main > div.row {
+  #main-wrapper > .container > div.row {
     justify-content: center !important;
   }
 }
@@ -1418,7 +1435,7 @@ $btn-mb: 0.5rem;
 /* --- desktop mode, both sidebar and panel are visible --- */
 
 @media all and (min-width: 1200px) {
-  #search-wrapper {
+  search {
     margin-right: 4rem;
   }
 
@@ -1426,8 +1443,8 @@ $btn-mb: 0.5rem;
     transition: all 0.3s ease-in-out;
   }
 
-  #search-results > div {
-    width: 46%;
+  #search-results > article {
+    width: 45%;
 
     &:nth-child(odd) {
       margin-right: 1.5rem;
@@ -1443,14 +1460,14 @@ $btn-mb: 0.5rem;
     }
   }
 
-  .post-content {
+  .content {
     font-size: 1.03rem;
   }
 }
 
 @media all and (min-width: 1400px) {
   #back-to-top {
-    right: calc((100vw - #{$sidebar-width} - 1140px) / 2 + 3rem);
+    right: calc((100vw - $sidebar-width - 1140px) / 2 + 3rem);
   }
 }
 
@@ -1465,33 +1482,31 @@ $btn-mb: 0.5rem;
     left: $sidebar-width-large;
   }
 
-  #search-wrapper {
+  search {
     margin-right: calc(
-      #{$main-content-max-width} * 0.25 - #{$search-max-width} - 0.75rem
+      $main-content-max-width / 4 - $search-max-width - 0.75rem
     );
   }
 
-  #main {
+  #main-wrapper > .container {
     max-width: $main-content-max-width;
     padding-left: 1.75rem !important;
     padding-right: 1.75rem !important;
   }
 
-  #core-wrapper,
+  main.col-12,
   #tail-wrapper {
     padding-right: 4.5rem !important;
   }
 
   #back-to-top {
     right: calc(
-      (100vw - #{$sidebar-width-large} - #{$main-content-max-width}) / 2 + 2rem
+      (100vw - $sidebar-width-large - $main-content-max-width) / 2 + 2rem
     );
   }
 
   #sidebar {
     width: $sidebar-width-large;
-
-    $icon-gap: 1rem; // for the bottom icons
 
     .profile-wrapper {
       margin-top: 3.5rem;
@@ -1510,11 +1525,11 @@ $btn-mb: 0.5rem;
       margin-bottom: 1.75rem;
 
       a:not(:last-child) {
-        margin-right: $icon-gap;
+        margin-right: $sb-btn-gap-lg;
       }
 
       .icon-border {
-        @include ml-mr(calc(($icon-gap - $btn-border-width) / 2));
+        @include ml-mr(calc(($sb-btn-gap-lg - $btn-border-width) / 2));
       }
     }
   }

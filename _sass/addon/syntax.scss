@@ -149,7 +149,7 @@ div[class^='language-'] {
 
   box-shadow: var(--language-border-color) 0 0 0 1px;
 
-  .post-content > & {
+  .content > & {
     @include ml-mr(-1rem);
 
     border-radius: 0;
@@ -186,7 +186,7 @@ div {
   align-items: center;
   height: $code-header-height;
   margin-left: 0.75rem;
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
 
   /* the label block */
   span {
@@ -258,7 +258,7 @@ div {
 
 @media all and (min-width: 576px) {
   div[class^='language-'] {
-    .post-content > & {
+    .content > & {
       @include ml-mr(0);
 
       border-radius: $base-radius;
@@ -267,7 +267,7 @@ div {
     .code-header {
       @include ml-mr(0);
 
-      $dot-margin: calc($code-header-height / 2);
+      $dot-margin: 1rem;
 
       &::before {
         content: '';
