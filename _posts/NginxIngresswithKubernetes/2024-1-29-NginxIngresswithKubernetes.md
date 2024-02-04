@@ -28,8 +28,8 @@ kubectl create namespace my-web-app
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
 ```
 
-3. Deploy your web app:
-   There are three parts in deployment.yaml.
+1.  Deploy your web app:
+    There are three parts in the deployment.yaml file.
 
 ```yaml
 {% raw %}
