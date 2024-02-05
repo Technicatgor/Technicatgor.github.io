@@ -17,16 +17,17 @@ image:
 ### AI
 
 - [Ollama](https://ollama.ai/): Amazing local GPT
-- privateGPT: Chat with your docs GPT
-- CrewAI: Chat with your CrewAI
+- [privateGPT](https://github.com/imartinez/privateGPT): Chat with your docs GPT
+- [CrewAI](https://github.com/joaomdmoura/crewAI): Chat with your CrewAI
+- [LangChain](https://python.langchain.com/docs/get_started/introduction): To simplify the creation of applications using LLMs.
 - [LM Studio](https://lmstudio.ai/): local GPT with Open-Source LLM
-- [gen.nvim](https://github.com/David-Kunz/gen.nvim): Copliot alternatively in neovim chat with self-hosted Ollama
+- [gen.nvim](https://github.com/David-Kunz/gen.nvim): Copilot alternately interacts in Neovim's chat with a self-hosted Ollama
 
 ### Docker
 
 - docker & docker-compose: `wget https://gitlab.com/bmcgonag/docker_installs/-/raw/main/install_docker_nproxyman.sh`
 - [lazydocker](https://github.com/jesseduffield/lazydocker): Docker cli IDE
-- Dockage: Web-UI Docker IDE
+- [Dockage](https://github.com/louislam/dockge): Web-UI Docker IDE
 
 ### Kubernetes
 
@@ -37,7 +38,17 @@ image:
 
 ### Programming tools
 
-- Poetry:
-- bun:
-- yarn:
-- n:
+#### Python
+
+- [Poetry](https://python-poetry.org/):
+- [Streamlit](https://docs.streamlit.io/)
+
+#### Javascript
+
+- [bun](https://bun.sh/docs/installation): A fast JavaScript runtime designed as a drop-in replacement for Node.js.
+- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable): package manager
+- [n](https://github.com/tj/n): Interactively Manage Your Node.js Versions
+
+### Backup Tools
+
+- [restic](https://github.com/restic/restic): restic is a backup program that is fast, efficient and secure.
