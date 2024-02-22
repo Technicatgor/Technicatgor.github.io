@@ -16,12 +16,13 @@ image:
 
 ### AI
 
-- [Ollama](https://ollama.ai/): Amazing local GPT
+- [Ollama](https://ollama.ai/): Amazing local GPT in multi-OS
 - [privateGPT](https://github.com/imartinez/privateGPT): Chat with your docs GPT
 - [CrewAI](https://github.com/joaomdmoura/crewAI): Chat with your CrewAI
 - [LangChain](https://python.langchain.com/docs/get_started/introduction): To simplify the creation of applications using LLMs.
 - [LM Studio](https://lmstudio.ai/): local GPT with Open-Source LLM
 - [gen.nvim](https://github.com/David-Kunz/gen.nvim): Copilot alternately interacts in Neovim's chat with a self-hosted Ollama
+- [litellm](https://github.com/BerriAI/litellm): Call all LLM APIs using the OpenAI format - Bedrock, Huggingface, VertexAI, TogetherAI, Azure, OpenAI, etc.
 
 ### Docker
 
