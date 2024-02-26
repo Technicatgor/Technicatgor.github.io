@@ -20,9 +20,13 @@ image:
 1. Create a repository name as `gh-action`
    ![gh-action-01](/assets/img/gh-action-01.png)
 
-2. Setup your Build and deployment source as Github Actions
-   `Setting > Pages > Build and Deployment > Source`
-   ![gh-action-02](/assets/img/gh-action-02.png)
+2. Setup your Build and deployment source as Github Actions:
+
+```
+Setting > Pages > Build and Deployment > Source
+```
+
+![gh-action-02](/assets/img/gh-action-02.png)
 
 ### Creating the Nextjs Blog
 
@@ -72,6 +76,7 @@ module.exports = nextConfig;
 PS: This yaml file is for nextjs v14.
 
 ```yaml
+{% raw %}
 # Sample workflow for building and deploying a Next.js site to GitHub Pages
 #
 # To get started with Next.js see: https://nextjs.org/docs/getting-started
@@ -165,6 +170,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+{% endraw %}
 ```
 
 3. Check the Actions process
