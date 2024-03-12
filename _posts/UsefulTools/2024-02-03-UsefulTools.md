@@ -53,3 +53,8 @@ image:
 ### Backup Tools
 
 - [restic](https://github.com/restic/restic): restic is a backup program that is fast, efficient and secure.
+
+### Terminal
+
+- [tmux](https://github.com/tmux/tmux/wiki): tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal.
+- [wrap](https://www.warp.dev/): Warp is the terminal reimagined with AI and collaborative tools for better productivity.
