@@ -22,11 +22,23 @@ image:
 - [LangChain](https://python.langchain.com/docs/get_started/introduction): To simplify the creation of applications using LLMs.
 - [LM Studio](https://lmstudio.ai/): local GPT with Open-Source LLM
 - [gen.nvim](https://github.com/David-Kunz/gen.nvim): Copilot alternately interacts in Neovim's chat with a self-hosted Ollama
-- [litellm](https://github.com/BerriAI/litellm): Call all LLM APIs using the OpenAI format - Bedrock, Huggingface, VertexAI, TogetherAI, Azure, OpenAI, etc.
+- [elia](https://github.com/darrenburns/elia): A snappy, keyboard-centric terminal user interface for interacting with large language models. Chat with Claude 3, ChatGPT, and local models like Llama 3, Phi 3, Mistral and Gemma.
+- [page-assist](https://github.com/n4ze3m/page-assist): Page Assist is an open-source Chrome Extension that provides a Sidebar and Web UI for your Local AI model. It allows you to interact with your model from any webpage.
+
+### Applications
+
+- [Obsidian](https://obsidian.md/): Obsidian is the private and flexible writing app that adapts to the way you think.
+- [Insomnia](https://insomnia.rest/): Build better APIs collaboratively for the most popular protocols with a dev‑friendly UI, built-in automation, and an extensible plugin ecosystem.
 
 ### Docker
 
-- docker & docker-compose: `wget https://gitlab.com/bmcgonag/docker_installs/-/raw/main/install_docker_nproxyman.sh`
+- docker & docker-compose:
+
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
+
 - [lazydocker](https://github.com/jesseduffield/lazydocker): Docker cli IDE
 - [Dockage](https://github.com/louislam/dockge): Web-UI Docker IDE
 
@@ -57,4 +69,10 @@ image:
 ### Terminal
 
 - [tmux](https://github.com/tmux/tmux/wiki): tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal.
+- [kitty](https://sw.kovidgoyal.net/kitty/): The fast, feature-rich, cross-platform, GPU based terminal
 - [wrap](https://www.warp.dev/): Warp is the terminal reimagined with AI and collaborative tools for better productivity.
+- [bat](https://github.com/sharkdp/bat): A `cat` clone with syntax highlighting and Git integration.
+- [fzf](https://github.com/junegunn/fzf): fzf is a general-purpose command-line fuzzy finder.
+- [eza](https://github.com/eza-community/eza): eza is a modern, maintained replacement for the venerable file-listing command-line program `ls`
+- [zoxide](https://github.com/ajeetdsouza/zoxide): zoxide is a smarter cd command, inspired by z and autojump.
+- [thefuck](https://github.com/nvbn/thefuck): Magnificent app which corrects your previous console command.
