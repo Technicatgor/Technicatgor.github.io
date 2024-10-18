@@ -17,6 +17,7 @@ image:
 ### AI
 
 - [Ollama](https://ollama.ai/): Amazing local GPT in multi-OS
+- [OpenWebUI](https://openwebui.com/): Open WebUI is an extensible, self-hosted interface for AI that adapts to your workflow, all while operating entirely offline.
 - [privateGPT](https://github.com/imartinez/privateGPT): Chat with your docs GPT
 - [CrewAI](https://github.com/joaomdmoura/crewAI): Chat with your CrewAI
 - [LangChain](https://python.langchain.com/docs/get_started/introduction): To simplify the creation of applications using LLMs.
@@ -28,6 +29,7 @@ image:
 ### Applications
 
 - [Obsidian](https://obsidian.md/): Obsidian is the private and flexible writing app that adapts to the way you think.
+- [Orbstack](https://orbstack.dev/): OrbStack is the fast, light, and easy way to run Docker containers and Linux. Develop at lightspeed with our Docker Desktop alternative.
 - [Insomnia](https://insomnia.rest/): Build better APIs collaboratively for the most popular protocols with a dev‑friendly UI, built-in automation, and an extensible plugin ecosystem.
 
 ### Docker
