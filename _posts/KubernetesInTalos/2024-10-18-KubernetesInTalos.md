@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Installing Kubernetes in Talos
+title: Deploy Kubernetes Cluster in Talos
 date: 2024-10-18 09:00:00 +800
 categories: [Kubernetes]
 tags: [Kubernetes, homelab]
@@ -17,6 +17,8 @@ Go to release page to download the latest OS `.iso`
 
 Docs:\
 [https://www.talos.dev/v1.8/introduction/getting-started/](https://www.talos.dev/v1.8/introduction/getting-started/)
+
+---
 
 ## Prerequisites
 
@@ -41,17 +43,45 @@ taloscp ip:
 	10.0.50.179
 taloswk ip:
 	10.0.50.180
-```
 
-Generate the config.
-
-```bash
-# For my case:
 export CONTROL_PLANE_IP=10.0.50.179
 export WORKER_NODE_IP=10.0.50.180
+```
 
+---
+
+## CNI
+
+The default installation used flannel and kube-proxy in k8s cluster. \
+If your want to control the ingress, egress network policies, \
+you can deploy Cilium
+
+### Default way
+
+```bash
 talosctl gen config talos-promox-cluster https://CONTROL_PLANE_IP:6443 --output-dir _out
 ```
+
+### Install Cilium way
+
+Create a `patch.yml`, disable kube-proxy
+
+```yaml
+cluster:
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: true
+```
+
+Run this command to gen config.
+
+```bash
+talosctl gen config talos-promox-cluster https://CONTROL_PLANE_IP:6443 --config-patch @patch.yaml --output-dir _out
+```
+
+### Applying config
 
 ```bash
 root@commander:~# ls _out
@@ -83,7 +113,7 @@ talosctl config node $CONTROL_PLANE_IP
 
 Bootstrap Etcd.
 
-```
+```bash
 talosctl bootstrap
 ```
 
@@ -95,7 +125,7 @@ talosctl kubeconfig .
 
 Test to confirm that the Kubeconfig is valid.
 
-```
+```bash
 kubectl get nodes --kubeconfig=kubeconfig
 ```
 
@@ -106,6 +136,8 @@ kubectl get po -n kube-system --kubeconfig=kubeconfig
 ```
 
 Output should look similar to the below:
+
+#### Flannel & kube-proxy
 
 ```bash
 NAME                                    READY   STATUS    RESTARTS       AGE
@@ -119,6 +151,66 @@ kube-proxy-b8b2f                        1/1     Running   0              3m28s
 kube-proxy-tt8jp                        1/1     Running   0              3m37s
 kube-scheduler-talos-e3j-66i            1/1     Running   2 (4m5s ago)   2m23s
 ```
+
+#### Cilium
+
+[cilium-cli](https://technicatgor.github.io/posts/KubernetesInTalos/#instal-cilium-cli)
+
+```bash
+cilium install \
+    --set ipam.mode=kubernetes \
+    --set kubeProxyReplacement=true \
+    --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
+    --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
+    --set cgroup.autoMount.enabled=false \
+    --set cgroup.hostRoot=/sys/fs/cgroup \
+    --set k8sServiceHost=localhost \
+    --set k8sServicePort=7445
+```
+
+Check cilium status:
+
+```bash
+cilium status
+    /¯¯\
+ /¯¯\__/¯¯\    Cilium:             OK
+ \__/¯¯\__/    Operator:           OK
+ /¯¯\__/¯¯\    Envoy DaemonSet:    disabled (using embedded mode)
+ \__/¯¯\__/    Hubble Relay:       disabled
+    \__/       ClusterMesh:        disabled
+
+Deployment        cilium-operator    Desired: 1, Ready: 1/1, Available: 1/1
+DaemonSet         cilium             Desired: 2, Ready: 2/2, Available: 2/2
+Containers:       cilium-operator    Running: 1
+                  cilium             Running: 2
+Cluster Pods:     3/3 managed by Cilium
+Image versions    cilium             quay.io/cilium/cilium:v1.13.3@sha256:77176464a1e11ea7e89e984ac7db365e7af39851507e94f137dcf56c87746314: 2
+                  cilium-operator    quay.io/cilium/operator-generic:v1.13.3@sha256:fa7003cbfdf8358cb71786afebc711b26e5e44a2ed99bd4944930bba915b8910: 1
+```
+
+## Enable hubble ui
+
+```bash
+cilium hubble enable --ui
+```
+
+Run `kubectl get pod -n kube-system --kubeconfig=kubeconfig`
+
+```bash
+NAME                               READY   STATUS    RESTARTS        AGE
+cilium-696nl                       1/1     Running   0               3m41s
+cilium-c5lc2                       1/1     Running   0               3m41s
+cilium-operator-777fccb4f8-z4c8b   1/1     Running   0               3m17s
+coredns-68d75fd545-75wk4           1/1     Running   0               2m31s
+coredns-68d75fd545-xqsst           1/1     Running   0               3m37s
+hubble-relay-7bd98d9b74-hc6kd      1/1     Running   0               3m28s
+hubble-ui-7868f68687-5k9rk         2/2     Running   0               3m28s
+kube-apiserver-talos-cp            1/1     Running   0               3m37s
+kube-controller-manager-talos-cp   1/1     Running   4 (4m5s ago)    2m23s
+kube-scheduler-talos-cp            1/1     Running   2 (4m5s ago)    2m23s
+```
+
+---
 
 ## Provisioning
 
@@ -222,6 +314,8 @@ nginx        LoadBalancer   10.98.9.134   10.0.50.80    80:32599/TCP   6s
 k delete deploy nginx
 ```
 
+---
+
 ## Dynamic storage provisioning - NFS
 
 ### Deploy nfs-client-provisioner
@@ -242,7 +336,7 @@ nfs-client-provisioner-6c9bfdf668-vblpx   1/1     Running   0          22s
 
 ### Test the pv, pvc
 
-```
+```bash
 k apply -f test-claim.yml
 ```
 
@@ -256,6 +350,8 @@ parameters:
 ```
 
 ![/assets/img/nfs-02.png](/assets/img/nfs-02.png)
+
+---
 
 ## Deploy Traefik
 
@@ -302,7 +398,7 @@ NAME                          READY   STATUS    RESTARTS   AGE
 pod/traefik-678ffbf4d-7ztvs   1/1     Running   0          3m38s
 
 NAME              TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
-service/traefik   LoadBalancer   10.97.2.176   10.0.50.81    80:31252/TCP,443:30560/TCP   3m38s
+service/traefik   LoadBalancer   10.97.2.176   10.0.50.80    80:31252/TCP,443:30560/TCP   3m38s
 
 NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/traefik   1/1     1            1           3m38s
@@ -335,11 +431,13 @@ http://commander-ip:9000/dashboard/
 
 ![/assets/img/traefik-dashboard.png](/assets/img/traefik-dashboard.png)
 
-## Testing IngressRoute
+---
+
+## IngressRoute
 
 ### Blue Nginx
 
-```yml
+```yaml
 {% raw %}
 apiVersion: apps/v1
 kind: Deployment
@@ -358,62 +456,70 @@ spec:
         run: nginx-blue
     spec:
       volumes:
-      - name: webdata
-        emptyDir: {}
+        - name: webdata
+          emptyDir: {}
       initContainers:
-      - name: web-content
-        image: busybox
-        volumeMounts:
-        - name: webdata
-          mountPath: "/webdata"
-        command: ["/bin/sh", "-c", 'echo "<h1>I am <font color=blue>BLUE</font></h1>" > /webdata/index.html']
+        - name: web-content
+          image: busybox
+          volumeMounts:
+            - name: webdata
+              mountPath: "/webdata"
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              'echo "<h1>I am <font color=green>BLUE</font></h1>" > /webdata/index.html'
+            ]
       containers:
-      - image: nginx
-        name: nginx
-        volumeMounts:
-        - name: webdata
-          mountPath: "/usr/share/nginx/html"
-
+        - image: nginx
+          name: nginx
+          volumeMounts:
+            - name: webdata
+              mountPath: "/usr/share/nginx/html"
 {% endraw %}
 ```
 
 ### Green Nginx
 
-```yml
+```yaml
 {% raw %}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     run: nginx
-  name: nginx-deploy-blue
+  name: nginx-deploy-green
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: nginx-blue
+      run: nginx-green
   template:
     metadata:
       labels:
-        run: nginx-blue
+        run: nginx-green
     spec:
       volumes:
-      - name: webdata
-        emptyDir: {}
+        - name: webdata
+          emptyDir: {}
       initContainers:
-      - name: web-content
-        image: busybox
-        volumeMounts:
-        - name: webdata
-          mountPath: "/webdata"
-        command: ["/bin/sh", "-c", 'echo "<h1>I am <font color=green>Green</font></h1>" > /webdata/index.html']
+        - name: web-content
+          image: busybox
+          volumeMounts:
+            - name: webdata
+              mountPath: "/webdata"
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              'echo "<h1>I am <font color=green>Green</font></h1>" > /webdata/index.html'
+            ]
       containers:
-      - image: nginx
-        name: nginx
-        volumeMounts:
-        - name: webdata
-          mountPath: "/usr/share/nginx/html"
-
+        - image: nginx
+          name: nginx
+          volumeMounts:
+            - name: webdata
+              mountPath: "/usr/share/nginx/html"
 {% endraw %}
 ```
 
@@ -495,7 +601,7 @@ nginx   2m
 ```bash
 k get svc -n traefik
 NAME      TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
-traefik   LoadBalancer   10.97.2.176   10.0.50.81    80:31252/TCP,443:30560/TCP   18h
+traefik   LoadBalancer   10.97.2.176   10.0.50.80    80:31252/TCP,443:30560/TCP   18h
 ```
 
 ```bash
@@ -507,6 +613,8 @@ echo "<traefik-lb-ip> nginx.example.com blue.nginx.example.com green.nginx.examp
 `curl http://nginx.example.com`\
 `curl http://blue.nginx.example.com`\
 `curl http://green.nginx.example.com`
+
+---
 
 ## Pebble ACME
 
@@ -626,6 +734,8 @@ Certificate:\
 
 Traefik route page:\
 ![/assets/img/cert-02.png](/assets/img/cert-02.png)
+
+---
 
 ## Middlewares
 
@@ -753,7 +863,9 @@ Spec:
 Events:      <none>
 ```
 
-# Weight Round Robin
+---
+
+## Weight Round Robin
 
 `weight_round_robin.yml`
 
@@ -792,6 +904,8 @@ spec:
           kind: TraefikService
 ```
 
+---
+
 ## Reference Tools
 
 ### Install Kubectl
@@ -823,3 +937,7 @@ chmod 700 get_helm.sh
 ```
 
 [https://v3-1-0.helm.sh/docs/intro/install/](https://v3-1-0.helm.sh/docs/intro/install/)
+
+## Instal cilium cli
+
+[https://github.com/cilium/cilium-cli](https://github.com/cilium/cilium-cli)
