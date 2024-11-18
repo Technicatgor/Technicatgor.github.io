@@ -40,12 +40,14 @@ taloscp and taloswk installed in my pve with 2 cores and 4GB ram.
 
 ```bash
 taloscp ip:
-	10.0.50.179
+	10.0.50.101
 taloswk ip:
-	10.0.50.180
+	10.0.50.102
+	10.0.50.103
 
-export CONTROL_PLANE_IP=10.0.50.179
-export WORKER_NODE_IP=10.0.50.180
+export CONTROL_PLANE_IP=10.0.50.101
+export WORKER_NODE_1_IP=10.0.50.102
+export WORKER_NODE_2_IP=10.0.50.103
 ```
 
 ---
@@ -97,7 +99,7 @@ talosctl apply-config --insecure --nodes $CONTROL_PLANE_IP --file _out/controlpl
 Create the worker node from the output of the `gen config` command.
 
 ```bash
-talosctl apply-config --insecure --nodes $WORKER_NODE_IP --file _out/worker.yaml
+talosctl apply-config --insecure ---nodes $WORKER_NODE_1_IP -nodes $WORKER_NODE_2_IP --file _out/worker.yaml
 ```
 
 Set the API Server via a Config for Kubeconfig.
@@ -316,9 +318,129 @@ k delete deploy nginx
 
 ---
 
+## Longhorn
+
+_Longhorn is a lightweight, reliable and easy-to-use distributed block storage system for Kubernetes._
+
+### Upgrade Image
+
+Go to `https://factory.talos.dev/`
+
+Choose the iscsi-tools and util-linux-tools, then copy the #Talos Linux Upgrade provided image.
+
+`factory.talos.dev/installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.8.3`
+
+```bash
+talosctl upgrade -n 10.0.50.101 -n 10.0.50.102 -n 10.0.50.103 --image  factory.talos.dev/installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.8.3 --preserve
+```
+
+> **Caution:** If you do not include the `--preserve` option, Talos wipes `/var/lib/longhorn`, destroying all replicas stored on that node.
+
+When finish, check the extensions:
+
+`talosctl get extensions -n 10.0.50.101 -n 10.0.50.102 -n 10.0.50.103`
+
+```bash
+NODE          NAMESPACE   TYPE              ID   VERSION   NAME               VERSION
+10.0.50.101   runtime     ExtensionStatus   0    1         iscsi-tools        v0.1.6
+10.0.50.101   runtime     ExtensionStatus   1    1         util-linux-tools   2.40.2
+10.0.50.101   runtime     ExtensionStatus   2    1         schematic          613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245
+10.0.50.102   runtime     ExtensionStatus   0    1         iscsi-tools        v0.1.6
+10.0.50.102   runtime     ExtensionStatus   1    1         util-linux-tools   2.40.2
+10.0.50.102   runtime     ExtensionStatus   2    1         schematic          613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245
+10.0.50.103   runtime     ExtensionStatus   0    1         iscsi-tools        v0.1.6
+10.0.50.103   runtime     ExtensionStatus   1    1         util-linux-tools   2.40.2
+10.0.50.103   runtime     ExtensionStatus   2    1         schematic          613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245
+```
+
+### Check extensions
+
+```bash
+talosctl get extensions -n 10.0.50.101 -n 10.0.50.102 -n 10.0.50.103
+```
+
+### Patch the worker nodes
+
+Create `patch.yml`
+
+```bash
+machine:
+  kubelet:
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+```
+
+Patch the worker nodes that create a mount dir for longhorn with each worker node.
+
+```bash
+talosctl -n 10.0.50.102 -n 10.0.50.103 patch machineconfig -p @patch.yml
+```
+
+### Install with helm
+
+```bash
+helm repo add longhorn https://charts.longhorn.io
+helm repo update
+helm show values longhorn/longhorn >> values.yml
+```
+
+Editing the `values.yml` first:
+
+```yml
+longhornUI:
+  # -- Replica count for Longhorn UI.
+  replicas: 2 #your worker nodes number
+defaultSettings:
+  backupTarget: "nfs://nas:/volume1/backup/longhorn"
+```
+
+Installation:
+
+```bash
+helm install longhorn longhorn/longhorn --namespace longhorn-system --values values.yml --create-namespace --version 1.7.2
+```
+
+### Pod Security
+
+```bash
+kubectl label namespace longhorn-system pod-security.kubernetes.io/enforce=privileged
+```
+
+### Ingress
+
+Create `ingress.yml`
+
+```yml
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: longhorn-ingressroute
+  namespace: longhorn-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`FQDN`) # <-- Replace with your FQDN
+      kind: Rule
+      services:
+        - name: longhorn-frontend
+          port: 80
+  # tls:
+  #     secretName: longhorn-certificate-secret
+```
+
 ## Dynamic storage provisioning - NFS
 
 ### Deploy nfs-client-provisioner
+
+_I recommend for single node use case. If using multi-node, please use longhorn_
 
 https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/tree/master/deploy
 
@@ -938,6 +1060,30 @@ chmod 700 get_helm.sh
 
 [https://v3-1-0.helm.sh/docs/intro/install/](https://v3-1-0.helm.sh/docs/intro/install/)
 
-## Instal cilium cli
+## Install cilium cli
 
 [https://github.com/cilium/cilium-cli](https://github.com/cilium/cilium-cli)
+
+```bash
+CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+GOOS=$(go env GOOS)
+GOARCH=$(go env GOARCH)
+curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
+sha256sum --check cilium-${GOOS}-${GOARCH}.tar.gz.sha256sum
+sudo tar -C /usr/local/bin -xzvf cilium-${GOOS}-${GOARCH}.tar.gz
+rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
+```
+
+## Reference Links
+
+### Longhorn Talos
+
+[https://longhorn.io/docs/1.7.2/advanced-resources/os-distro-specific/talos-linux-support/#talos-linux-upgrades](https://longhorn.io/docs/1.7.2/advanced-resources/os-distro-specific/talos-linux-support/#talos-linux-upgrades)
+
+### Editing machine configuration
+
+[https://www.talos.dev/v1.8/talos-guides/configuration/editing-machine-configuration/](https://www.talos.dev/v1.8/talos-guides/configuration/editing-machine-configuration/)
+
+### Talos Linux Image Factory
+
+[https://factory.talos.dev](https://factory.talos.dev)
