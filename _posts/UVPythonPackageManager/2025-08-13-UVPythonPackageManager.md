@@ -86,16 +86,16 @@ Here's a sample Python program using requests for demonstration:
 import requests
 
 def get_breeds_info():
-  response = requests.get("https://api.thecatapi.com/v1/breeds")
-  response.raise_for_status()
-  return response.json()
+  response = requests.get("https://api.thecatapi.com/v1/breeds")
+  response.raise_for_status()
+  return response.json()
 
 def main():
-  breeds = get_breeds_info()
-  print(f"Number of cat breeds: {len(breeds)}")
+  breeds = get_breeds_info()
+  print(f"Number of cat breeds: {len(breeds)}")
 
 if __name__ == "__main__":
-  main()
+  main()
 ```
 
 Run this with:
@@ -134,7 +134,7 @@ uv lock --upgrade-package requests
 
 This upgrades the package to the latest compatible version according to your version constraints.
 
-Run `uv sync` to install the updated packages.
+Run `uv sync` to install the updated packages.
 
 To upgrade all packages according to constraints:
 
@@ -162,8 +162,8 @@ uv run main.py
 
 ## How uv Manages Dependencies Internally
 
-- `pyproject.toml` — Declares your project dependencies with version constraints.
-- `uv.lock` — Records exact versions for reproducibility and manages both direct and transitive dependencies.
+- `pyproject.toml` — Declares your project dependencies with version constraints.
+- `uv.lock` — Records exact versions for reproducibility and manages both direct and transitive dependencies.
 - uv commands automatically keep these files updated to ensure consistent environments across machines.
 
 ## Summary of Key Commands
