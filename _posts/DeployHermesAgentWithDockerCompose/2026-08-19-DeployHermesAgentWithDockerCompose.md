@@ -4,9 +4,9 @@ title: Deploy Hermes Agent & Web UI with Docker Compose
 date: 2026-08-19 16:30:00 +800
 categories: [DevOps,Docker]
 tags: [docker,hermes,agent,webui,compose,homelab]
+image:
+  path: /assets/img/headers/hermes-docker-compose-cover.png
 ---
-
-![banner](https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&h=630&fit=crop)
 
 用 Docker Compose 一站式部署 Hermes Agent 同 Hermes Web UI，適合 home server / VPS 長時間運行。
 
