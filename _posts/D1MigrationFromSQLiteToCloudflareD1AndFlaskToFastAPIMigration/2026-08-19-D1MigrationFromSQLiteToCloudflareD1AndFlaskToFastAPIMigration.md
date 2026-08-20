@@ -4,6 +4,8 @@ title: Migrate SQLite to Cloudflare D1 & Flask to FastAPI
 date: 2026-08-19 16:13:00 +800
 categories: [DevOps,D1]
 tags: [d1,cloudflare,fastapi,flask,sqlite]
+image:
+  path: /assets/img/headers/d1-migration-cover.png
 ---
 
 將本地 SQLite `inventory.db`（IT 資產管理系統）遷移到 Cloudflare D1，並將後端由 Flask 重寫做 FastAPI。
