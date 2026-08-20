@@ -1,80 +1,108 @@
 ---
 layout: post
-title: Exploring the World of Open-Source Tech Tools
+title: 2026 開源神器精選 — 開發者必收工具清單
 pin: true
-date: 2024-02-03 10:00:00 +800
+date: 2026-08-19 10:00:00 +800
 categories: [Tools]
-tags: [tools]
+tags: [tools, devops, ai, opensource]
 image:
   path: /assets/img/headers/techtools.png
-  lqip: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8gAAAH4CAIAAAAZ1VPRAALJIklEQVR4Aeyah5IbuxVE0aQ3h/eUv8L//1MOm/NumxaKp9TVZInO4e1d1QgDXNyMHgyG+vj59+Od
 ---
 
 ## Techtools
 
 **The list will be updated frequently.**
 
-### AI
+### AI & LLM
 
-- [Ollama](https://ollama.ai/): Amazing local GPT in multi-OS
-- [OpenWebUI](https://openwebui.com/): Open WebUI is an extensible, self-hosted interface for AI that adapts to your workflow, all while operating entirely offline.
-- [privateGPT](https://github.com/imartinez/privateGPT): Chat with your docs GPT
-- [CrewAI](https://github.com/joaomdmoura/crewAI): Chat with your CrewAI
-- [LangChain](https://python.langchain.com/docs/get_started/introduction): To simplify the creation of applications using LLMs.
-- [LM Studio](https://lmstudio.ai/): local GPT with Open-Source LLM
-- [gen.nvim](https://github.com/David-Kunz/gen.nvim): Copilot alternately interacts in Neovim's chat with a self-hosted Ollama
-- [elia](https://github.com/darrenburns/elia): A snappy, keyboard-centric terminal user interface for interacting with large language models. Chat with Claude 3, ChatGPT, and local models like Llama 3, Phi 3, Mistral and Gemma.
-- [page-assist](https://github.com/n4ze3m/page-assist): Page Assist is an open-source Chrome Extension that provides a Sidebar and Web UI for your Local AI model. It allows you to interact with your model from any webpage.
+- [Ollama](https://github.com/ollama/ollama) — Run Llama 3.2, Mistral, and more locally. Amazing local GPT in multi-OS.
+- [OpenWebUI](https://github.com/open-webui/open-webui) — The most feature-rich WebUI for LLMs. Self-hosted, offline-first, OpenAI API compatible.
+- [LlamaIndex](https://github.com/run-llama/llama_index) — Data framework for LLM-powered applications. Query your documents with AI.
+- [vLLM](https://github.com/vllm-project/vllm) — High-throughput LLM inference engine. 24x faster than HuggingFace.
+- [LocalAI](https://github.com/mudler/LocalAI) — OpenAI API-compatible local inference engine supporting multiple models.
+- [AutoGen](https://github.com/microsoft/autogen) — Microsoft's framework for building multi-agent AI applications.
+- [OpenClaw](https://github.com/openclaw/openclaw) — Autonomous coding agents orchestration platform.
+- [Hugging Face Transformers](https://github.com/huggingface/transformers) — State-of-the-art ML for PyTorch, TensorFlow, and JAX.
+- [CrewAI](https://github.com/crewAIInc/crewAI) — AI agent orchestration for building collaborative AI teams.
+- [LangGraph](https://github.com/langchain-ai/langgraph) — Build resilient, multi-step AI applications with state management.
 
-### Applications
+### DevOps & Infrastructure
 
-- [Obsidian](https://obsidian.md/): Obsidian is the private and flexible writing app that adapts to the way you think.
-- [Orbstack](https://orbstack.dev/): OrbStack is the fast, light, and easy way to run Docker containers and Linux. Develop at lightspeed with our Docker Desktop alternative.
-- [Insomnia](https://insomnia.rest/): Build better APIs collaboratively for the most popular protocols with a dev‑friendly UI, built-in automation, and an extensible plugin ecosystem.
-
-### Docker
-
-- docker & docker-compose:
-
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-```
-
-- [lazydocker](https://github.com/jesseduffield/lazydocker): Docker cli IDE
-- [Dockage](https://github.com/louislam/dockge): Web-UI Docker IDE
+- [Terraform](https://github.com/hashicorp/terraform) — Infrastructure as Code. Build, change, and version infrastructure safely.
+- [Packer](https://github.com/hashicorp/packer) — Create identical machine images for multiple platforms from a single source configuration.
+- [K3s](https://github.com/k3s-io/k3s) — Lightweight Kubernetes, easy to install, half the memory, all in a binary less than 70mb.
+- [Docker](https://github.com/docker/docker) — The open-source application container engine.
+- [Podman](https://github.com/containers/podman) — A standard daemon-less container engine for Linux.
+- [Nomad](https://github.com/hashicorp/nomad) — Simple and flexible workload orchestrator for microservices and batch jobs.
+- [Coolify](https://github.com/coolify-hq/coolify) — An open-source, self-hosted Heroku/Netlify alternative.
+- [Heimdall](https://github.com/linuxserver/Heimdall) — Application dashboard and launcher.
+- [Homepage](https://github.com/gethomepage/homepage) — A modern, fully static, fast, secure fully proxied, highly customizable application dashboard.
 
 ### Kubernetes
 
-- [k3s](https://k3s.io/): The Lightweight kubernetes
-- [kubectl](https://kubernetes.io/docs/tasks/tools/): The Kubernetes command-line tool
-- [OpenLens](https://github.com/MuhammedKalkan/OpenLens): Kubernetes Open-Source IDE
-- [k9s](https://k9scli.io/): Kubernetes CLI To Manage Your Clusters
+- [k9s](https://github.com/derailed/k9s) — Kubernetes CLI To Manage Your Clusters In Style.
+- [OpenLens](https://github.com/MuhammedKalkan/OpenLens) — Kubernetes Open-Source IDE.
+- [Helm](https://github.com/helm/helm) — The Kubernetes Package Manager.
+- [ArgoCD](https://github.com/argoproj/argo-cd) — Declarative, GitOps continuous delivery for Kubernetes.
+- [Longhorn](https://github.com/longhorn/longhorn) — Distributed block storage system for Kubernetes.
 
-### Programming tools
+### Docker
+
+- [lazydocker](https://github.com/jesseduffield/lazydocker) — The lazier way to manage everything docker. Docker CLI IDE.
+- [Dockge](https://github.com/louislam/dockge) — Beautiful, easy self-hosted docker compose.yaml manager.
+- [Portainer](https://github.com/portainer/portainer) — Simple management UI for Docker and Kubernetes.
+- [lazygit](https://github.com/jesseduffield/lazygit) — Simple terminal UI for git commands.
+- [Immich](https://github.com/immich-app/immich) — High-performance self-hosted photo and video backup solution.
+
+### Terminal & CLI
+
+- [tmux](https://github.com/tmux/tmux) — Terminal multiplexer. Switch between several programs in one terminal.
+- [kitty](https://github.com/kovidgoyal/kitty) — Fast, feature-rich, cross-platform, GPU based terminal.
+- [zsh](https://github.com/ohmyzsh/ohmyzsh) — Oh My Zsh — a delightful community-driven framework for managing your zsh configuration.
+- [bat](https://github.com/sharkdp/bat) — A `cat` clone with syntax highlighting and Git integration.
+- [fzf](https://github.com/junegunn/fzf) — General-purpose command-line fuzzy finder.
+- [eza](https://github.com/eza-community/eza) — A modern, maintained replacement for `ls`.
+- [zoxide](https://github.com/ajeetdsouza/zoxide) — A smarter cd command, inspired by z and autojump.
+- [thefuck](https://github.com/nvbn/thefuck) — Magnificent app which corrects your previous console command.
+- [glow](https://github.com/charmbracelet/glow) — Render markdown on the CLI with high-quality styling.
+- [starship](https://github.com/starship/starship) — The minimal, blazing-fast, and infinitely customizable prompt for any shell.
+
+### Programming
 
 #### Python
 
-- [Poetry](https://python-poetry.org/):
-- [Streamlit](https://docs.streamlit.io/)
+- [Poetry](https://python-poetry.org/) — Python packaging and dependency management.
+- [Streamlit](https://github.com/streamlit/streamlit) — The faster way to build and share data apps.
+- [uv](https://github.com/astral-sh/uv) — An extremely fast Python package installer and resolver.
 
-#### Javascript
+#### JavaScript / TypeScript
 
-- [bun](https://bun.sh/docs/installation): A fast JavaScript runtime designed as a drop-in replacement for Node.js.
-- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable): package manager
-- [n](https://github.com/tj/n): Interactively Manage Your Node.js Versions
+- [bun](https://github.com/oven-sh/bun) — A fast JavaScript runtime, package manager, test runner, and bundler.
+- [Vite](https://github.com/vitejs/vite) — Next generation frontend tooling. Lightning fast dev server and build tool.
+- [tldr](https://github.com/tldr-pages/tldr) — Collaborative cheatsheets for console commands.
 
-### Backup Tools
+### Security
 
-- [restic](https://github.com/restic/restic): restic is a backup program that is fast, efficient and secure.
+- [Burp Suite Community](https://portswigger.net/burp/communitydownload) — Web security testing toolkit.
+- [GoWAF](https://github.com/securityWike/Gowaf) — Open source WAF with AI-powered threat detection.
 
-### Terminal
+### Network
 
-- [tmux](https://github.com/tmux/tmux/wiki): tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal.
-- [kitty](https://sw.kovidgoyal.net/kitty/): The fast, feature-rich, cross-platform, GPU based terminal
-- [wrap](https://www.warp.dev/): Warp is the terminal reimagined with AI and collaborative tools for better productivity.
-- [bat](https://github.com/sharkdp/bat): A `cat` clone with syntax highlighting and Git integration.
-- [fzf](https://github.com/junegunn/fzf): fzf is a general-purpose command-line fuzzy finder.
-- [eza](https://github.com/eza-community/eza): eza is a modern, maintained replacement for the venerable file-listing command-line program `ls`
-- [zoxide](https://github.com/ajeetdsouza/zoxide): zoxide is a smarter cd command, inspired by z and autojump.
-- [thefuck](https://github.com/nvbn/thefuck): Magnificent app which corrects your previous console command.
+- [Tailscale](https://github.com/tailscale/tailscale) — Zero config VPN, building secure networks.
+- [Pihole](https://github.com/pi-hole/pi-hole) — A black hole for internet advertisements.
+- [WireGuard](https://github.com/WireGuard/WireGuard) — Fast, modern, secure VPN tunnel.
+- [bind9](https://github.com/namecoin/dnssec-master) — DNS server setup and management.
+
+### Backup
+
+- [restic](https://github.com/restic/restic) — Fast, secure, efficient backup program.
+- [Duplicati](https://github.com/duplicati/duplicati) — Storage-efficient encrypted backup for the cloud.
+
+### AI + DevOps Integration
+
+- [ChatGPT](https://github.com/openai/chatgpt) — The official ChatGPT SDK for building LLM applications.
+- [Cursor](https://github.com/getcursor/cursor) — The AI-first code editor.
+
+---
+
+*Last updated: August 2026*
