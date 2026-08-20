@@ -76,6 +76,7 @@ image:
 
 - [Burp Suite Community](https://portswigger.net/burp/communitydownload) — Web security testing toolkit.
 - [GoWAF](https://github.com/securityWike/Gowaf) — Open source WAF with AI-powered threat detection.
+- [Snyk Agent Scan](https://github.com/snyk/agent-scan) — Scan AI agent skills and MCP servers for prompt injection, malicious code, secret exposure, and supply chain risks. Includes Skill Inspector (browser-based) and CLI (`uvx snyk-agent-scan@latest --skills`).
 
 ### Network
 
