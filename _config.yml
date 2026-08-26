@@ -46,6 +46,9 @@ social:
 
 google_site_verification: # fill in to your verification string
 
+google_analytics:
+  id: G-GBN4TZJML8
+
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings
 
