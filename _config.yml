@@ -52,8 +52,6 @@ google_analytics:
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings
 
-google_analytics:
-  id: # fill in your Google Analytics ID
 
 # Prefer color scheme setting.
 #
