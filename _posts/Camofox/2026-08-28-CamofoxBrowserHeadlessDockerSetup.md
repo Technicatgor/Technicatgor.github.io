@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Camofox Browser — Headless Browser for Dockerized Hermes Agent
-date: 2026-08-28 18:00:00 +800
+date: 2026-08-28 11:00:00 +800
 categories: [Docker,Browser,AIOps]
 tags: [docker,camofox,hermes-agent,headless-browser,browser-automation]
 image:
