@@ -186,6 +186,26 @@ docker compose pull
 docker compose up -d   # ~/.hermes 不變，只會重建 image
 ```
 
+#### Force Recreate（更新 Container）
+
+如果更新後發現 container 行為異常（例如 Python packages 需要重新安裝、volume 內容不同步），可以用以下流程徹底重建：
+
+```bash
+# 1. 拉取最新 image
+docker compose pull
+
+# 2. 刪除 hermes-agent-src volume（會由新 image 重新填入）
+docker volume rm hermes-docker_hermes-agent-src
+
+# 3. 強制重新建立 container（會完全刪除再重建）
+docker compose up --force-recreate -d
+```
+
+> [!note] 注意事項
+> - `hermes-agent-src` volume 只包含 agent source code，刪除後下次 `up` 會由新 image 自動重新填充。
+> - `~/.hermes` 掛載嘅 host directory 唔會受影響，config、sessions、memories 全部保留。
+> - 如果同時想重建 `~/.hermes` 相關嘅 volume（例如開發環境），可以加 `docker compose down -v` 再 `up`，但會清除所有 agent data。
+
 ### 進入 shell
 
 ```bash
