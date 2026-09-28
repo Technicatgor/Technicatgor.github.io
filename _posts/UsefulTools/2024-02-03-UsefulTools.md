@@ -21,6 +21,7 @@ image:
 |------|------|
 | [Ponytail](https://github.com/DietrichGebert/ponytail) | Lazy senior dev persona skill — makes your AI agent write the least code that works, no over-engineering |
 | [Superpowers](https://github.com/obra/superpowers) | Agentic skills framework for Claude Code — brainstorming, TDD, systematic debugging and full software development methodology |
+| [BrowserSkill](https://github.com/Tencent/BrowserSkill) | Let AI agents drive your real, logged-in browser via CLI + extension — browser automation for any shell-capable agent |
 
 ---
 
