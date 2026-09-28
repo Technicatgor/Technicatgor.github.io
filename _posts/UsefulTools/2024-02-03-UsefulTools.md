@@ -22,6 +22,11 @@ image:
 | [Ponytail](https://github.com/DietrichGebert/ponytail) | Lazy senior dev persona skill — makes your AI agent write the least code that works, no over-engineering |
 | [Superpowers](https://github.com/obra/superpowers) | Agentic skills framework for Claude Code — brainstorming, TDD, systematic debugging and full software development methodology |
 | [BrowserSkill](https://github.com/Tencent/BrowserSkill) | Let AI agents drive your real, logged-in browser via CLI + extension — browser automation for any shell-capable agent |
+| [Diagram Design](https://github.com/cathrynlavery/diagram-design) | Editorial-quality diagrams as self-contained HTML + SVG — no shadows, no Mermaid slop |
+| [Understand Anything](https://github.com/Egonex-AI/Understand-Anything) | Turn any codebase into an interactive knowledge graph you can explore, search, and ask questions about |
+| [Scientific Agent Skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 165 validated skills + 100+ scientific databases (biology, chemistry, medicine) — turns any AI agent into an AI Scientist |
+| [i-have-adhd](https://github.com/ayghri/i-have-adhd) | Stop your coding agent burying the answer — ADHD-friendly, action-first output |
+| [last30days](https://github.com/mvanhorn/last30days-skill) | Research any topic across Reddit, X, YouTube, HN, Polymarket and the web, then synthesize a grounded summary |
 
 ---
 
