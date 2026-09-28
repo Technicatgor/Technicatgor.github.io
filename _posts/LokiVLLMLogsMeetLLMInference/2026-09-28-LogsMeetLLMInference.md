@@ -27,36 +27,7 @@ image:
 
 整個系統由兩條路徑組成：
 
-```mermaid
-flowchart LR
-  subgraph SRC["來源"]
-    C[Docker containers]
-    J[journald]
-    R["其他機器的 Alloy agents"]
-  end
-
-  subgraph AL["Alloy = Layer 0"]
-    P["loki.process：drop noise / decolorize / stream metrics"]
-  end
-
-  subgraph LK["Loki :3100"]
-    TS(("TSDB chunks + index — compactor 30d"))
-    RU["Ruler — LogQL rules"]
-  end
-
-  G["Grafana :3000"]
-  AM["Alertmanager → webhook"]
-  FA["FastAPI receiver：dedup / rate-limit / 拉取 ±5m context"]
-  EX["ExpertEdge vLLM\nQwen3.8-Flash-Next-NVFP4（示例）"]
-  DC["Discord alert + 解釋"]
-
-  C --> AL
-  J --> AL
-  R -.push.-> TS
-  AL -->|"push /loki/api/v1/push"| LK
-  G <-- "LogQL query" --> LK
-  RU -->|fire| AM --> FA --> EX --> DC
-```
+![架構流程圖](/assets/img/posts/logsmeetllm/architecture-flow.png)
 
 ### 三條路徑的角色
 
