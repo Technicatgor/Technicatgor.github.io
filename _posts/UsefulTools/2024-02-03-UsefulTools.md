@@ -15,6 +15,15 @@ image:
 
 ---
 
+## 🧩 AI Agent Skill
+
+| 工具 | 介紹 |
+|------|------|
+| [Ponytail](https://github.com/DietrichGebert/ponytail) | Lazy senior dev persona skill — makes your AI agent write the least code that works, no over-engineering |
+| [Superpowers](https://github.com/obra/superpowers) | Agentic skills framework for Claude Code — brainstorming, TDD, systematic debugging and full software development methodology |
+
+---
+
 ## 🤖 AI & LLM
 
 | 工具 | 介紹 |
