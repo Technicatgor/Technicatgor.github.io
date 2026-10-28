@@ -41,6 +41,7 @@ image:
 | [LlamaIndex](https://github.com/run-llama/llama_index) | Data framework for LLM-powered applications. Query your documents with AI |
 | [vLLM](https://github.com/vllm-project/vllm) | High-throughput LLM inference engine. 24x faster than HuggingFace |
 | [OpenClaw](https://github.com/openclaw/openclaw) | Autonomous coding agents orchestration platform |
+| [Indra](https://github.com/datalab-to/indra) | 1M param OCR model — runs on CPU, 15x faster than Tesseract, accuracy close to 1B+ param models |
 
 ---
 
